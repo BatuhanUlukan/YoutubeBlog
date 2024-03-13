@@ -1,0 +1,31 @@
+﻿@model HomeIndexViewModel
+
+@{
+    Layout = null;
+}
+
+<form id="post-comment-form" method="post" asp-controller="Home" asp-action="Comment">
+    <h4>Leave a Comment:</h4>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <input type="text" class="form-control" asp-for="Comment.Name" placeholder="Your Name*" >
+            </div>
+        </div> <!-- /.col -->
+    </div> <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <textarea class="form-control" asp-for="Comment.Text" rows="5" placeholder="Your Comment*" required></textarea>
+            </div>
+        </div> <!-- /.col -->
+    </div> <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <button type="submit" class="btn btn-primary">Submit Comment</button>
+        </div> <!-- /.col -->
+    </div> <!-- /.row -->
+    <input type="hidden" name="Comment.ArticleId" asp-for="Comment.ArticleId">
+
+</form>
+@await Component.InvokeAsync("NToastNotify")

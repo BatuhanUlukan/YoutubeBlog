@@ -1,0 +1,285 @@
+﻿@model PortfolioListDto
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<!--
+   Template:   Aivo - Multipurpose Portfolio HTML Website Template
+   Author:     Themetorium
+   URL:        https://themetorium.net
+-->
+
+<html lang="en">
+
+<head>
+
+    <!-- Title -->
+    <title>@Model.PageSeos.Title</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@Model.PageSeos.Title</title>
+    <meta name="description" content="@Model.PageSeos.Description">
+    <meta name="keywords" content="@Model.PageSeos.Keywords" />
+    <meta name="title" content="@Model.PageSeos.Title" />
+    <meta name="author" content="@Model.PageSeos.Page">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon (http://www.favicon-generator.org/) -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    @await Component.InvokeAsync("CSS")
+
+
+</head>
+
+
+
+<body id="body" class="animsition tt-boxed">
+
+
+    <header id="header" class="header-show-hide-on-scroll menu-align-right">
+
+        <!-- Begin header inner -->
+        <div class="header-inner tt-wrap">
+            @await Component.InvokeAsync("Header")
+        </div>
+        <!-- End header inner -->
+
+    </header>
+    <!-- End header -->
+    <!-- *************************************
+    *********** Begin body content ***********
+    ************************************** -->
+    <div id="body-content">
+
+
+        <!-- ========================
+        ///// Begin page header /////
+        =============================
+        -->
+        <section id="page-header" class="ph-lg">
+
+
+            <div class="page-header-image parallax-6 bg-image" style="background-image: url(&quot;/assets/portfolioheader.png&quot;); top: -82.5px; bottom: -82.5px;">
+
+                <div class="cover cover-opacity-4"></div>
+
+            </div>
+            <!-- End page header image -->
+            <!-- Begin page header inner -->
+            <div class="page-header-inner tt-wrap">
+
+    
+                <div class="page-header-caption ph-cap-xlg ph-cap-light ph-cap-shadow parallax-5 fade-out-scroll-4">
+                    <div class="ph-title-wrap">
+                        <h1 class="page-header-title">Portfolio</h1>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div class="ph-anim-element-wrap hide-ph-anim parallax-4 fade-out-scroll-4">
+                <div class="ph-anim-element-holder">
+                    <div class="ph-anim-element"></div>
+                </div>
+            </div>
+            <!-- End page header animated element -->
+
+        </section>
+        <!-- =====================================
+        ///// Begin portfolio list section (grid) /////
+        ====================================== -->
+        <section id="portfolio-list-section">
+            <div class="portfolio-list-inner isotope-wrap tt-wrap">
+
+                <!-- Begin isotope
+                ===================
+                -->
+                <div class="isotope col-3 gutter-3">
+
+                    <!-- Begin isotope top content -->
+                    <div class="isotope-top-content">
+
+                        <!-- Begin isotope categories
+                        =================================
+                        <!-- End isotope categories -->
+                        <!-- Begin isotope filter
+                        ==========================
+                        -->
+                        <div class="isotope-filter">
+                            <div class="isotope-filter-button">
+                                <span class="ifb-icon"><span class="lnr lnr-funnel"></span></span>
+                                <span class="ifb-icon-close"><i class="fas fa-times"></i></span> <!-- effect on small screens!) -->
+                                <!-- Begin filter button text
+                                ==============================
+                                -->
+                                <span class="ifb-text">Filter</span>
+                                <!-- End filter button text -->
+
+                            </div> <!-- /.isotope-filter-button -->
+                            <!-- Begin isotope filter links -->
+                            <ul class="isotope-filter-links">
+                                <li class="ifl-title"><span>Filter: </span></li>
+                                <li><button class="active" data-filter="*">Show All</button></li>
+                                @{
+                                    var uniqueCategories = new HashSet<string>();
+                                }
+
+                                @foreach (var category in Model.Portfolios)
+                                {
+                                    var fixedCategory = System.Text.RegularExpressions.Regex.Replace(category.Category.Name, @"\W+", "");
+
+                                    // Eğer kategori daha önce eklenmediyse, eklenmiş olarak işaretle ve liste ekle
+                                    if (uniqueCategories.Add(fixedCategory))
+                                    {
+                                        <li>
+                                            <button data-filter=".@fixedCategory">@category.Category.Name</button>
+                                        </li>
+                                    }
+                                }
+
+                            </ul>
+                            <!-- End isotope filter links -->
+                        </div>
+                        <!-- End isotope filter -->
+
+                    </div>
+                    <!-- End isotope top content -->
+                    <!-- Begin isotope items wrap
+                    ==============================
+                    -->
+
+                    <div class="isotope-items-wrap pli-white pli-alter-4">
+
+                        @foreach (var item in Model.Portfolios)
+                        {
+                            <!-- Grid sizer (do not remove!!!) -->
+                            <div class="grid-sizer"></div>
+
+
+                            <!-- =====================
+                            /// Begin isotope item ///
+                            ==========================
+                            -->
+                            var fıxed = System.Text.RegularExpressions.Regex.Replace(item.Category.Name, @"\W+", "");
+
+
+                            <div class="isotope-item @fıxed iso-height-1">
+
+                                <!-- Begin portfolio list item -->
+                                <div class="portfolio-list-item">
+
+                                    <!-- Begin portfolio list item image -->
+                                    <div class="pl-item-image-wrap">
+
+                                        <!-- Begin portfolio list item image inner -->
+                                        <a asp-controller="Portfolio" asp-action="Detail"  asp-route-slug="@item.Slug" class="pl-item-image-inner">
+
+                                            <div class="pl-item-image bg-image lazy" style="background-image: url('/assets/images/@(item.PortfolioImages.FirstOrDefault()?.FileName.Replace("\\", "/"))');"></div>
+                                            <div class="pl-item-icon"><span class="lnr lnr-link"></span></div>
+                                        </a>
+                                        <!-- End portfolio list item image inner -->
+
+                                    </div>
+                                    <!-- End portfolio list item image -->
+                                    <!-- Begin portfolio list item info -->
+                                    <div class="pl-item-info">
+                                        <div class="pl-item-caption">
+                                            <h2 class="pl-item-title"><a asp-controller="Portfolio" asp-action="Detail" asp-route-slug="@item.Slug">@item.User.FirstName @item.User.LastName</a></h2>
+                                            <div class="pl-item-category"><a >@item.Category.Name</a></div>
+                                        </div>
+                                    </div>
+                                    <!-- End portfolio list item info -->
+
+                                </div>
+                                <!-- End portfolio list item -->
+
+                            </div>
+                        }
+
+                        <!-- End isotope item -->
+
+                    </div>
+
+                    <!-- End isotope items wrap -->
+                    <!-- Begin tt-pagination-->
+                    <div class="tt-pagination-wrap">
+
+                        <ul class="tt-pagination">
+
+                            @if (Model.ShowPrevious)
+                            {
+                                <li><a asp-route-currentPage="@(Model.CurrentPage - 1)" asp-route-pageSize="@Model.PageSize">Prev</a></li>
+                            }
+                            @for (int i = 1; i < Model.TotalPages; i++)
+                            {
+                                <li class="@(i == Model.CurrentPage ? "active" : "")">
+                                    <a class="page-link" asp-route-currentPage="@i" asp-route-pageSize="@Model.PageSize">@i</a>
+                                </li>
+                            }
+
+
+                            @if (Model.ShowNext)
+                            {
+                                <li><a asp-route-currentPage="@(Model.CurrentPage + 1)" asp-route-pageSize="@Model.PageSize">Next</a></li>
+                            }
+                        </ul>
+
+                    </div>
+
+
+                </div>
+                <!-- End isotope -->
+
+            </div> <!-- /.portfolio-list-inner (/.isotope-wrap) -->
+        </section>
+
+
+        <section id="footer" class="footer-dark no-margin-top">
+
+            @await Component.InvokeAsync("Footer")
+
+        </section>
+
+
+    </div>
+
+    <!-- End body content -->
+    <!-- ====================
+    ///// Scripts below /////
+    ===================== -->
+    @await Component.InvokeAsync("JS")
+
+
+
+    <!--==============================
+    ///// Begin Google Analytics /////
+    ============================== -->
+    <!-- Paste your Google Analytics code here.
+    Go to http://www.google.com/analytics/ for more information. -->
+    <!--==============================
+    ///// End Google Analytics /////
+    ============================== -->
+
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,71 @@
+﻿@model List<UserDto>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="breadcrumb-main user-member justify-content-sm-between ">
+                <div class=" d-flex flex-wrap justify-content-center breadcrumb-main__wrapper">
+                    <div class="d-flex align-items-center user-member__title justify-content-center mr-sm-25">
+                        <h4 class="text-capitalize fw-500 breadcrumb-title">users List</h4>
+
+                    </div>
+                </div>
+                <div class="action-btn">
+                    <a asp-area="Admin" asp-controller="User" asp-action="Add" class="btn px-15 btn-primary">
+                        <i class="las la-plus fs-16"></i>Add New Member
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var user in Model)
+        {
+            <div name="@user.Id" class="col-md-6 col-sm-12 mb-25">
+
+                <div class="media  py-30  pl-30 pr-20 bg-white radius-xl users-list ">
+
+
+
+                    @if (user.UserImagess != null && user.UserImagess.Any())
+                    {
+                        <img class="mr-20 rounded-circle wh-80 bg-opacity-primary" src="~/assets/images/@user.UserImagess.First().FileName" alt="User image">
+                    }
+                    else
+                    {
+                        <img class="mr-20 rounded-circle wh-80 bg-opacity-primary" src="/Admin/img/tm1.png" alt="Generic placeholder image">
+                    }
+
+
+                    <div class="media-body d-xl-flex users-list-body">
+                        <div class="flex-1 pr-xl-30 users-list-body__title">
+                            <h6 class="mt-0 fw-500">@user.FirstName @user.LastName</h6>
+                            <span>@user.Role </span>                 <br>
+                            <span>@user.Email </span>
+
+                        </div>
+                        <div class="users-list__button mt-xl-0 mt-15 d-flex">
+                            <a asp-area="Admin" asp-controller="User" asp-action="Update" asp-route-user="@user.SecName" type="button" class="btn btn-info btn-default btn-squared btn-transparent-info mr-2" class="border text-capitalize px-20 color-gray transparent shadow2 follow my-xl-0 radius-md">
+                                update
+                            </a>
+                        </div>
+                        <div class="users-list__button mt-xl-0 mt-15 d-flex">
+
+                            <a asp-area="Admin" asp-controller="User" asp-action="Delete" asp-route-user="@user.SecName" type="button" class="btn btn-danger btn-default btn-squared btn-transparent-danger " class="border text-capitalize px-20 color-gray transparent shadow2 follow my-xl-0 radius-md">
+                                delete
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        }
+    </div>
+
+
+</div>

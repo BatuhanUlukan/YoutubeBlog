@@ -1,0 +1,120 @@
+﻿@using YoutubeBlog.Entity.DTOs.Socials
+@model List<SocialDto>
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.uikit.min.css" />
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 mb-30">
+            <div style="margin-top:45px;" class="card">
+                <div class="card-header color-dark fw-500">
+                    <span class="text-muted fw-light">Çöp Kutusu / Sosyal Medyalar</span>
+                </div>
+                <div class="card-body">
+
+                    @if (Model == null || !Model.Any())
+                    {
+                        <div class="atbd-empty text-center">
+                            <div class="atbd-empty__image">
+
+                                <img src="~/Admin/img/folders/1.svg" alt="Admin Empty">
+
+                            </div>
+                            <div class="atbd-empty__text">
+
+                                <p class="">No Data</p>
+
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="card">
+                            <div class="text-nowrap m-5">
+                            
+
+                                <table class="uk-table uk-table-hover uk-table-striped w-90 border-5" style="width:100%" id="Table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">İsim</th>
+                                            <th class="text-center">Soyisim</th>
+                                            <th class="text-center">Social İsmi</th>
+                                            <th class="text-center">Icon</th>
+                                            <th class="text-center">Aktif Mi ?</th>
+                                            <th class="text-center">İşlemler</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach (var social in Model)
+                                        {
+                                            <tr name="@social.Id">
+                                                <td style="vertical-align: middle; text-align: center;">@social.User.FirstName</td>
+                                                <td style="vertical-align: middle;text-align: center;" >@social.User.LastName</td>
+                                                <td style="vertical-align: middle; text-align: center;">@social.Name</td>
+                                                <td style="vertical-align: middle; text-align: center;">
+                                                    <i class="fab fa-@social.Icon fa-lg"></i>
+                                                </td>
+                                                <td style="vertical-align: middle; text-align: center;">
+                                                    @if (social.IsActive)
+                                                    {
+                                                        <span class="media-badge color-white bg-success">Evet</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="media-badge color-white bg-danger">Hayır</span>
+                                                    }
+                                                </td>
+
+
+                                                <td style="vertical-align: middle; text-align: center;">
+                                                    <!-- This ensures content inside the TD is vertically centered -->
+                                                    <div class="d-flex justify-content-center align-items-center">
+                                                        <!-- Bootstrap 4 Primary Button -->
+                                                        <a class="btn btn-success btn-sm mr-2" asp-area="Admin" asp-controller="User" asp-action="UndoDeleteSocial" asp-route-secName="@social.SecName">
+                                                            Undo
+                                                        </a>
+
+                                                        <!-- Bootstrap 4 Danger Button -->
+                                                        <a class="btn btn-danger btn-sm" asp-area="Admin" asp-controller="User" asp-action="HardDeleteSocial" asp-route-secName="@social.SecName">
+                                                          Delete
+                                                        </a>
+                                                    </div>
+                                                </td>
+
+
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th class="text-center">İsim</th>
+                                            <th class="text-center">Soyisim</th>
+                                            <th class="text-center">Social İsmi</th>
+                                            <th class="text-center">Icon</th>
+                                            <th class="text-center">Aktif Mi ?</th>
+                                            <th class="text-center">İşlemler</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+                <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+                <script src="https://cdn.datatables.net/1.13.6/js/dataTables.uikit.min.js"></script>
+
+                <script>
+                    new DataTable('#Table');
+                </script>
+
+
+            </div><!-- End: .userDatatable -->
+
+        </div>
+    </div>
+</div>

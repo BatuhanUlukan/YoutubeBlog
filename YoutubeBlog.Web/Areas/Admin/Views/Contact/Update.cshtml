@@ -1,0 +1,85 @@
+﻿
+@using YoutubeBlog.Entity.DTOs.Headquarters
+@model HeadquarterUpdateDto
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Adress Yönetimi /</span> Adress Güncelle
+    </h4>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <h5 class="card-header">Adres Bilgileri</h5>
+                <form asp-controller="Contact" asp-action="Update" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="card-body">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group">
+                            <label asp-for="Name" id="defaultFormControlInput" class="form-label">Adres İsmi</label>
+                            <input asp-for="Name" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen kategori ismini giriniz." aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Address" id="defaultFormControlInput" class="form-label">Adres </label>
+                            <input asp-for="Address" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen kategori ismini giriniz." aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">Adres Kordinatları</label>
+                            <div class="input-group ">
+                                <span id="basic-icon-default-fullname2" class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg></span>
+                                <input asp-for="Location" type="text" class="form-control" id="basic-icon-default-fullname" placeholder="Enter Icon Name" aria-describedby="basic-icon-default-fullname2">
+                                <span class="input-group-text" id="basic-addon13">41.087770, 29.089148</span>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="AddressLink" id="defaultFormControlInput" class="form-label">Haritalar Adres Linki</label>
+                            <input asp-for="AddressLink" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen kategori ismini giriniz." aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="AddressLink" class="text-danger"></span>
+                        </div>      
+                        <div class="form-group">
+                            <label asp-for="PhoneNumber" id="defaultFormControlInput" class="form-label">Telefon Numarası</label>
+                            <input asp-for="PhoneNumber" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen kategori ismini giriniz." aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>      
+                        <div class="form-group">
+                            <label asp-for="Email" id="defaultFormControlInput" class="form-label">EMail</label>
+                            <input asp-for="Email" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen kategori ismini giriniz." aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="checkbox-theme-default custom-checkbox">
+                     
+                            <input class="checkbox" type="checkbox" asp-for="Choosen">
+                            <label asp-for ="Choosen">
+                                İletişim Sayfasında Gösterilsin Mi ?
+                            </label>                             
+                     
+                        </div>
+                                  <br />
+                        <div class="checkbox-theme-default custom-checkbox">
+
+                            <input class="checkbox" type="checkbox" asp-for="IsActive">
+                            <label asp-for="IsActive">
+                                Aktif Mi ?
+                            </label>
+
+                        </div>
+
+                        <br />
+
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-sm">Kaydet</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,179 @@
+﻿@using System.Web
+@using YoutubeBlog.Web.Areas.Admin.Models
+@using YoutubeBlog.Web.Consts
+@model UserPageModel
+
+
+<style>
+    .rounded-square {
+        width: 85px; /* adjust as needed for desired size */
+        height: 30px; /* adjust as needed for desired size */
+        margin-left: -5px;
+        border-radius: 10px; /* adjust for desired roundness */
+        background-color: #333; /* sample background color, adjust as needed */
+    }
+</style>
+<nav class="navbar navbar-light">
+    <div class="navbar-left">
+        <a href="" class="sidebar-toggle">
+            <img class="svg" src="~/Admin/img/svg/bars.svg" alt="img">
+        </a>
+    </div>
+    <!-- ends: navbar-left -->
+
+    <div class="navbar-right">
+
+        <!-- ends: .navbar-right__menu -->
+
+        <ul class="navbar-right__menu">
+            <li class="nav-settings">
+                <a href="/admin/base" class="nav-item-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home nav-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                </a>
+            </li>
+            <li class="nav-message">
+                <div class="dropdown-custom">
+                    @if (User.IsInRole(RoleConsts.Admin) || User.IsInRole(RoleConsts.Superadmin))
+                    {
+                        @if (Model.Last12HoursMessageCount > 3)
+                        {
+
+                            <a href="javascript:;" class="nav-item-toggle">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            </a>
+
+                        }
+                        else
+                        {
+                            <style>
+                                .navbar-right__menu .nav-message .nav-item-toggle:before {
+                                    background: #d40f1b;
+                                }
+                            </style>
+                            <a class="nav-item-toggle">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        
+                    }
+
+             
+
+                    <div class="dropdown-wrapper">
+                        <h2 class="dropdown-wrapper__title">Messages <span class="badge-circle badge-success ml-1">@Model.Last12HoursMessageCount</span></h2>
+                        @foreach (var item in Model.Last4Messages)
+                        {
+                            <ul>
+                                <li class="author-online has-new-message">
+
+                                    <div class="user-message">
+                                        <p>
+                                            <a asp-area="Admin" asp-controller="Contact" asp-action="View" asp-route-messageId="@item.Id" class="subject stretched-link text-truncate" style="max-width: 180px;">@item.Subject</a>
+                                            @{
+                                                var currentTime = DateTime.Now; // Şu anki zamanı al
+                                                var createdDate = item.CreatedDate; // Verinin oluşturulma tarihini al
+                                                var timeDifference = currentTime - createdDate; // Zaman farkını hesapla
+
+                                                // Zaman farkını saat ve dakika olarak ayrı ayrı al
+                                                var hours = (int)timeDifference.TotalHours;
+
+                                                string formattedTime;
+
+                                                formattedTime = $"{hours} hrs  ago";
+
+                                            }
+
+                                            <span class="time-posted">@formattedTime</span>
+
+                                        </p>
+                                        <p>
+                                            <span class="desc text-truncate" style="max-width: 215px;">
+                                                @Html.Raw(item.Content.Length > 100 ? item.Content.Substring(0, 100) + "..." : item.Content)
+                                            </span>
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        }
+                        <a asp-area="Admin" asp-controller="Contact" asp-action="Message" class="dropdown-wrapper__more">See All Message</a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-author">
+                <div class="dropdown-custom">
+                    @if (Model.User.UserImagess.Any())
+                    {
+                        foreach (var image in Model.User.UserImagess)
+                        {
+                            <a href="javascript:;" class="nav-item-toggle"><img src="~/assets/images/@image.FileName" alt="" class="rounded-square"></a>
+                        }
+                    }
+                    else
+                    {
+                        <a href="javascript:;" class="nav-item-toggle"><img src="~/Admin/img/author-nav.jpg" alt="" class="rounded-square"></a>
+
+                    }
+                    <div class="dropdown-wrapper">
+                        <div class="nav-author__info">
+                            <div class="author-img">
+                                @if (Model.User.UserImagess.Any())
+                                {
+                                    foreach (var image in Model.User.UserImagess)
+                                    {
+                                        <img src="~/assets/images/@image.FileName" alt="" class="rounded-square">
+                                    }
+                                }
+                                else
+                                {
+                                    <img src="~/Admin/img/author-nav.jpg" alt="" class="rounded-square">
+                                }
+                            </div>
+                            <div>
+                                <h3>@Model.User.FirstName @Model.User.LastName</h3>
+                                <span>@DateTime.Now.ToString("dd.MM.yyyy HH:mm")</span>
+                                <span>@Model.User.Role</span>
+                            </div>
+                        </div>
+
+                        <div class="nav-author__options">
+                            <ul>
+                                <li>
+                                    <a asp-area="Admin" asp-controller="User" asp-action="Update" asp-route-user="@Model.User.SecName">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                        </svg> Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Home" asp-action="Index">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
+                                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                        </svg> Back Home
+                                    </a>
+                                </li>
+                            </ul>
+                            <a asp-area="Admin" asp-controller="Auth" asp-action="Logout" class="nav-author__signout">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                    <polyline points="16 17 21 12 16 7"></polyline>
+                                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                                </svg> Sign Out
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- ends: .dropdown-wrapper -->
+                </div>
+            </li>
+            <!-- ends: .nav-author -->
+        </ul>
+    </div>
+    <!-- ends: .navbar-right -->
+</nav>
+

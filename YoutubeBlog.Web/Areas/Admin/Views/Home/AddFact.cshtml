@@ -1,0 +1,80 @@
+﻿
+
+
+                                    @using YoutubeBlog.Entity.DTOs.Facts;
+@model FactAddDto
+<div class="container-xxl flex-grow-1 container-p-y">
+
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Sayfa Fact Yönetimi /</span> Sayfa Fact Ekle
+    </h4>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <form asp-controller="Home" asp-action="AddFact" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label asp-for="Name" id="defaultFormControlInput" class="form-label">Fact Baslık</label>
+                            <input asp-for="Name" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen sayfa baslık giriniz." aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                 
+                        <div class="form-group">
+                            <label asp-for="Icon" id="defaultFormControlInput" class="form-label">Fact Icon</label>
+                            <input asp-for="Icon" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen fact ıconu  giriniz." aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="Icon" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Value" class="form-label">Fact Deger</label>
+                            <div class="d-flex align-items-center">
+                                <div class="input-group" style="width:150px;">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="decrementValue('valueInput')">-</button>
+                                    <input asp-for="Value" type="text" class="form-control me-3" id="valueInput" placeholder="Lütfen fact degerı giriniz." aria-describedby="valueHelp" oninput="validateInput(this)">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="incrementValue('valueInput')">+</button>
+                                </div>
+                                <span asp-validation-for="Value" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group d-flex align-items-center">
+                            <!-- Added 'd-flex' and 'align-items-center' classes for flexbox and vertical alignment -->
+                            <button type="submit" class="btn btn-primary btn-sm me-2">Kaydet</button> <!-- Added 'me-2' for margin to the right -->
+                            <a href="https://fontawesome.com/icons" target="_blank" style="margin-left:2px;" class="btn btn-primary btn-sm me-2">Tüm Iconları Gör</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function incrementValue(inputId) {
+        var inputElement = document.getElementById(inputId);
+        var currentValue = parseInt(inputElement.value, 10) || 0;
+        inputElement.value = currentValue + 1;
+        validateInput(inputElement);
+    }
+
+    function decrementValue(inputId) {
+        var inputElement = document.getElementById(inputId);
+        var currentValue = parseInt(inputElement.value, 10) || 0;
+        inputElement.value = Math.max(0, currentValue - 1);
+        validateInput(inputElement);
+    }
+
+    function validateInput(inputElement) {
+        // You can add any additional validation logic here
+        // For example, ensuring that the value is a number
+        var value = inputElement.value;
+        if (isNaN(value)) {
+            inputElement.setCustomValidity("Lütfen bir sayı giriniz.");
+        } else {
+            inputElement.setCustomValidity("");
+        }
+    }
+</script>

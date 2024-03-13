@@ -1,0 +1,56 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>elFinder</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+    <link href="~/assets/plugins/elfinder/themes/elfinder-material-theme/material/css/theme-light.css" rel="stylesheet" />
+    <link href="~/assets/plugins/elfinder/css/elfinder.full.min.css" rel="stylesheet" />
+    <link href="~/assets/plugins/elfinder/css/elfinder.full.css" rel="stylesheet" />
+    <script src="~/assets/js/jquery.min.js"></script>
+    <script src="~/assets/js/jquery-ui.min.js"></script>
+    <script src="~/assets/plugins/elfinder/js/elfinder.min.js"></script>
+</head>
+
+<body>
+    <div id="elfinder"></div>
+
+    <script>
+
+        $(document).ready(function () {
+            var options = {
+                baseUrl: "/Assets/Plugins/elfinder/",
+                url: "/elfinder/connector",
+                rememberLastDir: false,
+                uiOptions: {
+                    toolbar: [
+                        ['back', 'forward'],
+                        ['reload'],
+                        ['home', 'up'],
+                        ['mkdir', 'mkfile', 'upload'],
+                        ['open', 'download'],
+                        ['undo', 'redo'],
+                        ['info'],
+                        ['quicklook'],
+                        ['copy', 'cut', 'paste'],
+                        ['duplicate', 'rename', 'edit'],
+                        ['selectall', 'selectnone', 'selectinvert'],
+                        ['view', 'sort']
+                    ]
+                },
+                lang: 'tr',
+
+            };
+            $('#elfinder').elfinder(options).elfinder('instance');
+        });
+
+    </script>
+
+</body>
+</html>

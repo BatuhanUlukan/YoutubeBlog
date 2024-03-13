@@ -1,0 +1,132 @@
+﻿@using YoutubeBlog.Web.Consts;
+﻿
+@model UserUpdateDto
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css" integrity="sha512-pVCM5+SN2+qwj36KonHToF2p1oIvoU3bsqxphdOIWMYmgr4ZqD3t5DjKvvetKhXGc/ZG5REYTT6ltKfExEei/Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<div class="container-xxl flex-grow-1 container-p-y">
+
+
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Kullanıcı Yönetimi /</span> Kullanıcı Güncelle
+    </h4>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <form asp-controller="User" asp-action="Update" method="post" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="card-body">
+                        <div class="account-profile d-flex align-items-center mb-4 ">
+                            <div class="ap-img pro_img_wrapper">
+                                <input id="file-upload" class="d-none">
+                                <!-- Profile picture image-->
+                                <label for="file-upload">
+                                    @if (Model.UserImages.Any())
+                                    {
+                                        @foreach (var image in Model.UserImages)
+                                        {
+                                            <img class="ap-img__main rounded-circle wh-120 bg-lighter d-flex" src="~/assets/images/@image.FileName" alt="profile">
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <img class="ap-img__main rounded-circle wh-120 bg-lighter d-flex" src="~/assets/egg.webp" alt="profile">
+                                    }
+
+                                </label>
+                            </div>
+                            <div class="account-profile__title">
+                                <h6 class="fs-15 ml-20 fw-500 text-capitalize">profile photo</h6>
+                            </div>
+                        </div>
+                        <div class="form-group" hidden>
+                            <input asp-for="SecName" type="text" />
+                        </div>
+
+
+                        <div class="form-group">
+                            <label asp-for="FirstName" id="defaultFormControlInput" class="form-label">Kullanıcının ismi</label>
+                            <input asp-for="FirstName" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen kullanıcının ismini giriniz." aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="LastName" id="defaultFormControlInput" class="form-label">Kullanıcının Soyismi</label>
+                            <input asp-for="LastName" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen kullanıcının soyismini giriniz." aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Email" id="defaultFormControlInput" class="form-label">Kullanıcının Email Adresi</label>
+                            <input asp-for="Email" type="email" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen kullanıcının email adresini giriniz." aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="About" for="defaultFormControlInput" class="form-label">Kullanıcı Hakkında </label>
+                            <textarea asp-for="About" type="text" class="ckeditor" id="editor" style="min-height:300px;" placeholder="İçerik"></textarea>
+                            <span asp-validation-for="About" class="text-danger"></span>
+                        </div><br />
+                        <div class="form-group">
+                            <label asp-for="PhoneNumber" id="defaultFormControlInput" class="form-label">Kullanıcının Telefon Numarası</label>
+                            <input asp-for="PhoneNumber" type="tel" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen kullanıcının telefon numarasını giriniz." aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="About" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-password-toggle">
+                            <label asp-for="NewPassword" class="form-label" for="basic-default-password12">Password</label>
+                            <div class="input-group">
+                                <input asp-for="NewPassword" type="password" class="form-control" id="basic-default-password12" placeholder="············" aria-describedby="basic-default-password2" aria-autocomplete="list">
+                                <span id="basic-default-password2" class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                            </div>
+                        </div>               <br />
+                        @if (!User.IsInRole($"{RoleConsts.User}"))
+                        {
+                            <div class="form-group">
+                                <label asp-for="RoleId" id="defaultFormControlInput" class="form-label">Kullanıcının Rolü</label>
+                                <select asp-for="RoleId" class="form-control mb-3" asp-items="@(new SelectList(Model.Roles,"Id","Name"))"></select>
+                            </div>
+                            <br />
+                        }
+                        <div class="input-group">
+                            <input asp-for="Photos" type="file" accept="image/*" class="form-control" id="inputGroupFile02">
+                            <label asp-for="Photos" class="input-group-text" for="inputGroupFile02">Yeni Resim Ekleyin</label>
+                        </div><br />
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-sm">Kaydet</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        CKEDITOR.replace('editor', {
+            filebrowserBrowseUrl: '/elfinder'
+        });
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="~/Assets/Plugins/ckeditor/ckeditor.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#basic-default-password2").click(function () {
+            const pwdInput = $("#basic-default-password12");
+            if (pwdInput.attr("type") === "password") {
+                pwdInput.attr("type", "text");
+                $(this).find("i").removeClass("bx-hide").addClass("bx-show");
+            } else {
+                pwdInput.attr("type", "password");
+                $(this).find("i").removeClass("bx-show").addClass("bx-hide");
+            }
+        });
+    });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/dist/boxicons.js" integrity="sha512-Dm5UxqUSgNd93XG7eseoOrScyM1BVs65GrwmavP0D0DujOA8mjiBfyj71wmI2VQZKnnZQsSWWsxDKNiQIqk8sQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

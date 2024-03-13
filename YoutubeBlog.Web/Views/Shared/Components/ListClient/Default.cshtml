@@ -1,0 +1,17 @@
+﻿@using YoutubeBlog.Entity.DTOs.Clients
+@model List<ClientDto>
+@{
+    Layout = null;
+}
+
+<ul class="client-list">
+    @foreach (var item in Model)
+    {
+        var imageUrl = item.ClientImages.FirstOrDefault()?.FileName;
+        if (!string.IsNullOrEmpty(imageUrl))
+        {
+            <li><a target="_blank" href="@item.Link" title="@item.Name"><img class="lazy" data-src="@imageUrl" alt="@item.Name"></a></li>
+        }
+    }
+</ul>
+

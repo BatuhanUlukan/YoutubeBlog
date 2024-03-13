@@ -1,0 +1,52 @@
+﻿@using YoutubeBlog.Entity.DTOs.Portfolios
+@model List<PortfolioDto>
+@using System.Linq
+
+@{
+    Layout = null;
+}
+
+@foreach (var portfolio in Model)
+{
+    <div class="cc-item iso-height-1">
+
+        <!-- Begin portfolio list item -->
+        <div class="portfolio-list-item">
+
+            <!-- Begin portfolio list item image -->
+            <div class="pl-item-image-wrap">
+
+                <!-- Begin portfolio list item image inner -->
+                <a asp-controller="Portfolio" asp-action="Detail" asp-route-slug="@portfolio.Slug" class="pl-item-image-inner">
+
+                    @{
+                        var imageUrl = "/assets/images/" + (@portfolio.PortfolioImages.FirstOrDefault()?.FileName ?? "").Replace("\\", "/");
+                    }
+
+                    <div class="pl-item-image bg-image owl-lazy" data-src="@imageUrl"></div>
+
+                    <!-- Portfolio list item icon (displayed only with default hover overlay and "pli-alter-4" class in isotope-items-wrap) -->
+                    <div class="pl-item-icon"><span class="lnr lnr-link"></span></div>
+                </a>
+                <!-- End portfolio list item image inner -->
+
+            </div>
+            <!-- End portfolio list item image -->
+            <!-- Begin portfolio list item info -->
+            <div class="pl-item-info">
+                <div class="pl-item-caption">
+                    <h2 class="pl-item-title"><span >@portfolio.User.FirstName @portfolio.User.LastName</span></h2>
+                    <div class="pl-item-category">
+                        <a asp-controller="Portfolio" asp-action="Detail" asp-route-slug="@portfolio.Slug">
+                            @portfolio.Category.Name
+                    </a></div>
+                </div>
+            </div>
+            <!-- End portfolio list item info -->
+
+        </div>
+        <!-- End portfolio list item -->
+
+    </div>
+}
+

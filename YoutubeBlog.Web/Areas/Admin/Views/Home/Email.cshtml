@@ -1,0 +1,333 @@
+﻿@using static YoutubeBlog.Web.Areas.Admin.Controllers.HomeController
+@model Tuple<List<MessageDto>, MessageCounts>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.uikit.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-LC5EVAJ4CAkGr0FtgkLEibw9PQE2TUgTJ9rTtqyrU2nJ9iTiXxghjNK2RG76MIWj" crossorigin="anonymous">
+
+<script>
+    $(document).ready(function () {
+        // Open mailCompose form
+        $('.btn-compose').click(function (e) {
+            e.preventDefault();
+            $('.atbd-mailCompose').toggleClass('show');
+        });
+
+        // Close mailCompose form
+        $('.compose-close').click(function (e) {
+            e.preventDefault();
+            $('.atbd-mailCompose').removeClass('show');
+        });
+
+        // Handle clicking the green buttons
+        $('.compose-open').click(function (e) {
+            e.preventDefault();
+
+            // Get the email information from the data attributes
+            var toEmail = $(this).data('email-to');
+            var subject = $(this).data('email-subject');
+
+            // Update the form fields with the email information
+            $('input[name="toEmail"]').val(toEmail);
+            $('input[name="subject"]').val(subject);
+
+            // Open the mailCompose form
+            $('.atbd-mailCompose').addClass('show');
+        });
+    });
+
+</script>
+
+<!-- Yukarıdaki satır, FontAwesome kütüphanesini CDN üzerinden ekler. Versiyonu güncel tutmak önemlidir. -->
+<style>
+    .compose-open,
+    .delete {
+        display: inline-block; /* Butonları yan yana yerleştir */
+        margin-right: 15px; /* İki buton arasındaki mesafeyi belirle */
+    }
+
+    .compose-open::before {
+            content: '\f1d8'; /* FontAwesome'daki 'send' ikonunun Unicode kodu */
+            font-family: 'Font Awesome 5 Free'; /* FontAwesome font ailesi */
+            margin-right: 5px;
+    }
+
+    .delete::before {
+            content: '\f2ed'; /* FontAwesome'daki 'trash' ikonunun Unicode kodu */
+            font-family: 'Font Awesome 5 Free'; /* FontAwesome font ailesi */
+            margin-right: 5px;
+    }
+
+    .showx::before {
+        content: '\1F440'; /* Göz emojisinin Unicode kodu */
+        margin-right: 5px;
+        font-family: 'Font Awesome 5 Free'; /* FontAwesome font ailesi */
+    }
+
+</style>
+
+
+
+
+
+<div class="atbd-page-content">
+    <div class="container-fluid">
+        <div class="mailbox-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="breadcrumb-main">
+                        <h4 class="text-capitalize breadcrumb-title">Inbox</h4>
+                    </div>
+
+                </div>
+                <div class="col-lg-2">
+                    <aside class="mailbox-sidebar-container">
+
+
+                        <div class="atbd-mail-sidebar  mb-30">
+                            <div class="card">
+                                <a href="#" class="mailbar-cross d-md-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                </a>
+                                <div class="card-body">
+                                    <div class="d-flex align-content-center content-center px-15">
+                                        <a href="#" class="btn-compose btn btn-md btn-primary btn-shadow-primary" data-trigger="compose"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> Compose</a>
+                                    </div>
+
+                                    <ul class="mail-list">
+                                        <li>
+                                            <a asp-area="Admin" asp-controller="Home" asp-action="Email" asp-route-category="ınbox">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-inbox">
+                                                    <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
+                                                    <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+                                                </svg>
+                                                Inbox
+                                                <span class="badge badge-primary badge-transparent"></span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a asp-area="Admin" asp-controller="Home" asp-action="Email" asp-route-category="form">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>Forms
+                                                <span class="badge badge-primary badge-transparent">@Model.Item2.TakedCount</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a asp-area="Admin" asp-controller="Home" asp-action="Email" asp-route-category="sent">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send">
+                                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                                </svg>
+                                                Send
+                                                <span class="badge badge-primary badge-transparent">@Model.Item2.SentCount</span>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a asp-area="Admin" asp-controller="Home" asp-action="Email" asp-route-category="deleted">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                </svg>Trash
+                                                <span class="badge badge-primary badge-transparent">@Model.Item2.TrashCount</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- ends: .card -->
+                        </div><!-- ends: .atbd-mail-sidebar -->
+                    </aside>
+                </div>
+                <!-- ends: .col-lg-2 -->
+                <div class="col-lg-10 mb-30">
+                    <div class="mailbox-container">
+                        <div class="mailbar-toggle d-md-none">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+                        <div class="mailbox-list">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    @if (Model == null || !Model.Item1.Any())
+                                    {
+                                        <div class="atbd-empty text-center">
+                                            <div class="atbd-empty__image">
+
+                                                <img src="~/Admin/img/folders/1.svg" alt="Admin Empty">
+
+                                            </div>
+                                            <div class="atbd-empty__text">
+
+                                                <p class="">No Data</p>
+
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="card">
+                                            <div class="text-nowrap m-5">
+
+                                                <table class="uk-table uk-table-hover uk-table-striped w-90 border-5" style="width:100%" id="Table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center">Email</th>
+                                                            <th class="text-center">Subject</th>
+                                                            <th class="text-center">Content</th>
+                                                            <th class="text-center">Date</th>
+                                                            <th class="text-center">Attach</th>
+                                                            <th class="text-center">İşlemler</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        @foreach (var message in Model.Item1)
+                                                        {
+                                                            <tr name="@message.Id">
+                                                                <td class="text-center">@message.Email</td>
+                                                                <td class="text-center">@message.Subject</td>
+                                                                <td class="text-center">@Html.Raw(message.Content.Length > 50 ? message.Content.Substring(0, 60) + "..." : message.Content)</td>
+                                                                <td class="text-center">@message.CreatedDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                                                <td>
+                                                                    @if (message.Attachments.Any())
+                                                                    {
+                                                                        foreach (var attachment in message.Attachments)
+                                                                        {
+                                                                            <div>
+                                                                                <a class="download-link" href="data:application/octet-stream;base64,@Convert.ToBase64String(attachment.Content)" download="@attachment.FileName">
+                                                                                    @attachment.FileName
+                                                                                </a>
+                                                                            </div>
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <div>
+                                                                            @foreach (var attachment in message.attachmentRecords)
+                                                                            {
+                                                                                <a href="@Url.Action("DownloadAttachment", "Home", new { attachmentId = attachment.Id })">
+                                                                                    @attachment.FileName
+                                                                                </a>
+
+                                                                                <br />
+                                                                            }
+                                                                        </div>
+                                                                    }
+                                                                </td>
+                                                                <td style="vertical-align: middle; text-align: center;">
+                                                                    <div class="d-flex justify-content-center align-items-center">
+
+                                                                        <a asp-area="Admin" asp-controller="Home" asp-action="View" asp-route-secName="@message.SecName" class="showx"></a>
+
+                                                                        <a class="compose-open" data-email-subject="@message.Subject" data-email-to="@message.Email"></a>
+                                                                        @if (message.IsDeleted == true)
+                                                                        {
+                                                                            <a asp-area="Admin" asp-controller="Home" asp-action="HardMessageDelete" asp-route-secName="@message.SecName" class="delete"></a>
+                                                                        }
+
+                                                                        @if (message.IsDeleted == false)
+                                                                        {
+                                                                            <a asp-area="Admin" asp-controller="Home" asp-action="SafeMessageDelete" asp-route-secName="@message.SecName" class="delete"></a>
+                                                                        }
+                                                                        else
+                                                                        {
+
+                                                                        }
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th class="text-center">Email</th>
+                                                            <th class="text-center">Subject</th>
+                                                            <th class="text-center">Content</th>
+                                                            <th class="text-center">Date</th>
+                                                            <th class="text-center">Attach</th>
+                                                            <th class="text-center">İşlemler</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+
+
+                            </div>
+
+
+
+                        </div>
+                        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+                        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+                        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.uikit.min.js"></script>
+
+                        <script>
+                            new DataTable('#Table');
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="atbd-mailCompose atbd-mailCompose--position">
+    <form asp-action="SendEmail" asp-controller="Home" asp-area="Admin" method="post" enctype="multipart/form-data">
+        <div class="atbd-mailCompose__header d-flex justify-content-between align-items-center">
+            <h6 class="mailCompose-title">New Message</h6>
+            <div class="atbd-mailCompose__action">
+                <a class="compose-close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- ends: .atbd-mailCompose__header -->
+        <div class="atbd-mailCompose__body">
+            <div class="mailCompose-form-content">
+                <div class="form-group">
+                    <input type="text" class="form-control-lg" name="toEmail" placeholder="To" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control-lg" name="toCC" placeholder="CC">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control-lg" name="subject" placeholder="Subject" required>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control-lg" name="body" placeholder="Body" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="attachments">Dosya Eki:</label>
+                    <input type="file" id="attachments" name="attachments" multiple>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <!-- ends: .atbd-mailCompose__body -->
+        <div class="atbd-mailCompose__footer d-flex justify-content-between align-items-center">
+            <div class="footer-left d-flex align-items-center">
+                <button class="btn btn-md btn-primary" type="submit">Send</button>
+                <!-- Other buttons as needed -->
+            </div>
+            <div class="footer-right">
+                <a href="#" class="btn-remove">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                </a>
+            </div>
+        </div>
+        <!-- ends: .atbd-mailCompose__footer -->
+    </form>
+</div>

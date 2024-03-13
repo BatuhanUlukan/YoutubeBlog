@@ -1,0 +1,19 @@
+﻿@using YoutubeBlog.Web.Models
+@model AdjacentArticleViewModel
+
+<div class="blog-single-nav">
+    <div class="bs-nav-col bs-nav-left">
+        @if (Model.PreviousArticle != null)
+        {
+            <a asp-controller="Home" asp-action="Detail" asp-route-slug="@Model.PreviousArticle.Slug" class="bs-nav-text"><i class="fas fa-angle-left"></i> Previous Post</a>
+            <a asp-controller="Home" asp-action="Detail" asp-route-slug="@Model.PreviousArticle.Slug" class="bs-nav-title"><h4>@Model.PreviousArticle.Title</h4></a>
+        }
+    </div>
+    <div class="bs-nav-col bs-nav-right">
+        @if (Model.NextArticle != null)
+        {
+            <a asp-controller="Home" asp-action="Detail" asp-route-slug="@Model.NextArticle.Slug" class="bs-nav-text">Next Post <i class="fas fa-angle-right"></i></a>
+            <a asp-controller="Home" asp-action="Detail" asp-route-slug="@Model.NextArticle.Slug" class="bs-nav-title"><h4>@Model.NextArticle.Title</h4></a>
+        }
+    </div>
+</div>

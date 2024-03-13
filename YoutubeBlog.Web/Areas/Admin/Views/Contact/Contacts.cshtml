@@ -1,0 +1,142 @@
+﻿@using YoutubeBlog.Entity.DTOs.Headquarters
+@model List<HeadquarterDto>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="contact-breadcrumb">
+
+                <div class="breadcrumb-main add-contact justify-content-sm-between ">
+                    <div class=" d-flex flex-wrap justify-content-center breadcrumb-main__wrapper">
+                        <div class="d-flex align-items-center add-contact__title justify-content-center mr-sm-25">
+                            <h4 class="text-capitalize fw-500 breadcrumb-title">Contacts</h4>
+                            <span class="sub-title ml-sm-25 pl-sm-25"></span>
+                        </div>
+
+                    </div>
+                    <div class="action-btn">
+                        <a asp-area="Admin" asp-controller="Contact" asp-action="Add" class="btn px-15 btn-primary">
+                            <i class="las la-plus fs-16"></i>Add New
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- ends: contact-breadcrumb -->
+        </div>
+    </div>
+    <div class="card card-default card-md mb-4">
+
+        <div class="card-body">
+            <div class="row contact-card-group">
+
+
+                @if (Model == null || !Model.Any())
+                {
+                    <div class="atbd-empty text-center">
+                        <div class="atbd-empty__image">
+
+                            <img src="~/Admin/img/folders/1.svg" alt="Admin Empty">
+
+                        </div>
+                        <div class="atbd-empty__text">
+
+                            <p class="">No Data</p>
+
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @foreach (var headquarter in Model)
+                    {
+
+                        <!-- ends: col-xl-3 -->
+                        <div name="@headquarter.Id" class="col-xl-3 mb-25">
+                            <div class="card contact-card">
+                                <div class="card-body text-center pt-30 px-25 pb-0">
+                                    <div class="card__more-action dropdown dropdown-click">
+                                        <button class="btn-link border-0 bg-transparent p-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+                                        </button>
+                                        <div class="dropdown-default dropdown-menu dropdown-bottomLeft dropdown-menu-right">
+                                            <a class="dropdown-item" asp-area="Admin" asp-controller="Contact" asp-action="Update" asp-route-headquarterName="@headquarter.Name">edit</a>
+                                            <a class="dropdown-item" asp-area="Admin" asp-controller="Contact" asp-action="Delete" asp-route-headquarterName="@headquarter.Name">delete</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="contact-profile-card text-center">
+                                        <div class="cp-info">
+                                            @if (headquarter.IsActive)
+                                            {
+                                                <span class="badge-dot dot-success"></span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge-dot dot-danger"></span>
+                                            }
+                                            <h6 class="cp-info__title">@headquarter.Name</h6>
+                                            @if (headquarter.Choosen)
+                                            {
+                                                <span class="cp-info__designation">Harita da : Evet </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="cp-info__designation">Harita da : Hayır </span>
+                                            }
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="card-footer mt-20 pt-20 pb-20 px-0">
+                                        <ul class="c-info-list">
+
+                                            <li class="c-info-list__item d-flex">
+                                                <div class="c-info-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-phone"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                                </div>
+                                                <p class="c-info-item-text">
+                                                    @headquarter.PhoneNumber
+                                                </p>
+                                            </li>
+
+
+                                            <li class="c-info-list__item d-flex">
+                                                <div class="c-info-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                                </div>
+                                                <p class="c-info-item-text">
+                                                    @headquarter.Email
+                                                </p>
+                                            </li>
+
+
+                                            <li class="c-info-list__item d-flex">
+                                                <div class="c-info-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                                </div>
+                                                <p class="c-info-item-text">
+                                                    @headquarter.Address
+                                                </p>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                            <!-- end: card -->
+                        </div>
+
+                    }
+                }
+                <!-- ends: col-xl-3 -->
+            </div>
+        </div>
+    </div>
+</div>
+

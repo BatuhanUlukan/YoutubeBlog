@@ -1,0 +1,124 @@
+﻿@using YoutubeBlog.Web.Models
+
+@model SideBarViewModel
+
+@{
+    Layout = null;
+}
+
+
+<div class="col-sm-12">
+
+    <!-- Begin sidebar widget -->
+    <div class="sidebar-widget sidebar-search">
+        <h3 class="sidebar-heading">Search</h3>
+        <form id="blog-search-form" class="form-btn-inside" asp-controller="Home" asp-action="Search" method="GET">
+            <div class="form-group no-margin">
+                <input type="text" class="form-control" id="blog-search" name="keyword" placeholder="Search...">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
+    </div>
+    <!-- End sidebar widget -->
+
+</div> <!-- /.col -->
+
+<div class="col-md-12 col-sm-6">
+
+    <!-- Begin sidebar widget -->
+    <div class="sidebar-widget sidebar-categories">
+        <h3 class="sidebar-heading">Categories</h3>
+        <ul class="list-unstyled">
+            @foreach (var category in Model.Categories)
+            {
+                <li><a asp-controller="Home" asp-action="Category" asp-route-categoryName="@category.Name">@category.Name <span title="Entries in this category">@category.ArticleCount</span></a></li>
+            }
+
+        </ul>
+    </div>
+    <!-- End sidebar widget -->
+
+</div> <!-- /.col -->
+
+<div class="col-md-12 col-sm-6">
+
+    <!-- Begin sidebar widget -->
+    <div class="sidebar-widget sidebar-post-list">
+        <h3 class="sidebar-heading">Random Portfolios</h3>
+        <ul class="list-unstyled">
+            @foreach (var item in Model.Portfolios)
+            {
+                <li>
+                    @{
+                        var imageUrl = "/assets/images/" + (@item.PortfolioImages.FirstOrDefault()?.FileName ?? "").Replace("\\", "/");
+                    }
+
+                    <a asp-controller="Portfolio" asp-action="Detail" asp-route-slug="@item.Slug" class="post-thumb bg-image lazy" data-src="@imageUrl"></a>
+                    <div class="post-data">
+                        <h5 class="post-title"><a asp-controller="Portfolio" asp-action="Detail" asp-route-slug="@item.Slug">@item.Title</a></h5>
+                        <span class="author">By: <strong>@item.User.FirstName @item.User.LastName</strong></span>
+                        <span class="date">@item.CreatedDate.ToString("MMM dd, yyyy")</span>
+                    </div>
+                </li>
+            }
+
+        </ul>
+    </div>
+    <!-- End sidebar widget -->
+
+</div> <!-- /.col -->
+@if (Model.Comments != null && Model.Comments.Any())
+{
+    <div class="col-md-12 col-sm-6">
+        <!-- Begin sidebar widget -->
+        <div class="sidebar-widget sidebar-comments-list">
+            <h3 class="sidebar-heading">Recent Comments</h3>
+            <ul class="list-unstyled">
+                @foreach (var item in Model.Comments)
+                {
+                    <li class="sidebar-comment-wrap">
+
+                        @if (item.User != null && item.User.UserImagess != null && item.User.UserImagess.Any())
+                        {
+                            var imageUrl = "/assets/images/" + item.User.UserImagess?.FirstOrDefault()?.FileName?.Replace('\\', '/') ?? "/assets/egg.webp";
+                            <a asp-controller="Home" asp-action="Detail" asp-route-slug=@item.Article.Slug class="sidebar-comment-avatar bg-image" style="background-image: url('@imageUrl');"></a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Home" asp-action="Detail" asp-route-slug=@item.Article.Slug class="sidebar-comment-avatar bg-image" style="background-image: url('/assets/egg.webp');"></a>
+
+                        }
+
+
+                        <div class="sidebar-comment-meta">
+                            <div class="sidebar-comment-data">
+                                <span class="author">By: <span >@item.Name</span></span>
+                                <span class="date">
+                                    @item.CreatedDate.ToString("MMM dd, yyyy")
+                                </span>
+                            </div>
+                            <div class="sidebar-comment">
+                                @Html.Raw(item.Text.Length > 100 ? item.Text.Substring(0, 100) + "..." : item.Text)
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+        <!-- End sidebar widget -->
+    </div>
+}
+
+
+<div class="col-md-12 col-sm-6">
+
+    <!-- Begin sidebar widget -->
+    <div class="sidebar-widget sidebar-meta">
+        <h3 class="sidebar-heading">Meta</h3>
+        <ul class="list-unstyled">
+            <li><a asp-area="Admin" asp-controller="Auth" asp-action="Login">Log In</a></li>
+        </ul>
+    </div>
+    <!-- End sidebar widget -->
+
+</div> <!-- /.col -->

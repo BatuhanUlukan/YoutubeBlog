@@ -1,0 +1,51 @@
+﻿@using YoutubeBlog.Web.Models
+@model CommentListViewModel
+@{
+    Layout = null;
+}
+
+<h4 class="comments-heading"><span>@Model.CommentCount</span> comments:</h4>
+
+<!-- Begin media list -->
+<ul class="media-list">
+
+    <!-- Begin media -->
+    @foreach (var comment in Model.Comments)
+    {
+        if (comment.IsConfırm)
+        {
+            <li class="media">
+                @if (comment.UserId != Guid.Empty)
+                {
+                    @if (comment.User != null && comment.User.UserImagess != null && comment.User.UserImagess.Any())
+                    {
+                        var imageUrl = "/assets/images/" + comment.User.UserImagess?.FirstOrDefault()?.FileName?.Replace('\\', '/') ?? "/assets/egg.webp";
+                        <span class="media-object pull-left bg-image" style="background-image: url('@imageUrl');"></span>
+                    }
+                    else
+                    {
+                        <span class="media-object pull-left bg-image" style="background-image: url('/assets/egg.webp');"></span>
+                    }
+                }
+                else
+                {
+                    <span class="media-object pull-left bg-image" style="background-image: url('/assets/egg.webp');"></span>
+                }
+
+                <div class="media-body">
+                    <h4 class="media-heading">
+                        <span>@comment.Name</span>
+                    </h4>
+                    <span class="article-time pull-left">@comment.CreatedDate.ToString("MMMM dd, yyyy 'at' - hh:mmtt")</span>
+                    <span class="media-reply pull-right"></span>
+                    <p class="media-text">@comment.Text</p>
+                </div>
+            </li>
+        }
+    }
+
+
+
+</ul>
+
+

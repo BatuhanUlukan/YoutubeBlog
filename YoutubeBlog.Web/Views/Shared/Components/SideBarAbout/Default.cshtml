@@ -1,0 +1,70 @@
+﻿@using YoutubeBlog.Web.Models
+
+@model SideBarAboutViewModel
+
+@{
+    Layout = null;
+}
+
+
+<div class="col-sm-12">
+    <!-- Begin sidebar widget -->
+    <div class="sidebar-widget blog-author no-margin-top">
+        <h3 class="sidebar-heading">About Me</h3>
+        @if (Model.User.UserImagess.Any())
+        {
+            var imageUrl = "/assets/images/" + @Model.User.UserImagess.FirstOrDefault()?.FileName.Replace('\\', '/');
+            <a asp-controller="Home" asp-action="About" asp-route-user="@Model.User.SecName" class="blog-author-img bg-image lazy" style="background-image: url('@imageUrl');"></a>
+        }
+
+        <div class="blog-author-info">
+            <h4 class="blog-author-name">
+                <h4 class="blog-author-name">
+                    <a asp-controller="Home" asp-action="About" asp-route-user="@Model.User.SecName">
+                        @Model.User.FirstName @Model.User.LastName
+                    </a>
+                </h4>
+            </h4>
+            <div class="blog-author-sub">@Model.User.Email</div>
+
+            @if (!string.IsNullOrEmpty(Model.User.About))
+            {
+                <p class="blog-author-text">
+                    @Html.Raw(Model.User.About.Length > 30 ? Model.User.About.Substring(0, 30) + "..." : Model.User.About)
+                </p>
+            }
+
+
+        </div>
+    </div>
+    <!-- End sidebar widget -->
+</div>
+
+
+@if (Model.Socials.Any())
+{
+    <div class="col-sm-12">
+
+        <!-- Begin sidebar widget -->
+        <div class="sidebar-widget sidebar-social">
+            <h3 class="sidebar-heading">Follow</h3>
+            <!-- Begin social buttons -->
+            <div class="social-buttons">
+                <ul>
+                    @foreach (var social in Model.Socials)
+                    {
+                        <li>
+                            <a href="@social.Link" class="btn btn-social-min btn-@social.Icon" title="Follow me on @social.Name" target="_blank"><i class="fab fa-@social.Icon"></i></a>
+                        </li>
+
+                    }
+
+                </ul>
+            </div>
+            <!-- End social buttons -->
+        </div>
+        <!-- End sidebar widget -->
+
+    </div>
+}
+

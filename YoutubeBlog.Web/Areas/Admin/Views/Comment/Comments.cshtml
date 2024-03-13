@@ -1,0 +1,158 @@
+﻿﻿@using YoutubeBlog.Web.Consts
+@model List<CommentDto>
+
+<style>
+    .icon-btn i {
+        display: inline-block;
+        vertical-align: middle;
+        text-align: center;
+        margin: 0 auto;
+    }
+</style>
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.uikit.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 mb-30">
+            <div class="card">
+                <div class="card-header color-dark fw-500">
+                    Yorum Yönetimi
+                </div>
+                <div class="card-body">
+
+                    @if (Model == null || !Model.Any())
+                    {
+                        <div class="atbd-empty text-center">
+                            <div class="atbd-empty__image">
+
+                                <img src="~/Admin/img/folders/1.svg" alt="Admin Empty">
+
+                            </div>
+                            <div class="atbd-empty__text">
+
+                                <p class="">No Data</p>
+
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="card">
+                            <div class="text-nowrap m-5">
+
+
+                                <table class="uk-table uk-table-hover uk-table-striped w-90 border-5" style="width:100%" id="Table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Blog Ismı</th>
+                                            <th class="text-center">Blog Aktıf Mı</th>
+                                            <th class="text-center">Yorum Tarıh</th>
+                                            <th class="text-center">Yorum Yapan</th>
+                                            <th class="text-center">Durum ?</th>
+
+                                            @if (!User.IsInRole($"{RoleConsts.User}"))
+                                            {
+                                                <th class="text-center">İşlemler</th>
+                                            }
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        @foreach (var comment in Model)
+                                        {
+                                            <tr name="@comment.Id">
+                                                <td style="vertical-align: middle; text-align: center;">@comment.Articles.Title</td>
+
+                                                <td style="vertical-align: middle; text-align: center;">
+                                                    @if (comment.Articles.IsActive)
+                                                    {
+                                                        <span class="media-badge color-white bg-success">Evet</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="media-badge color-white bg-danger">Hayır</span>
+                                                    }
+                                                </td>
+                                                <td style="vertical-align: middle; text-align: center;">@comment.CreatedDate.ToShortDateString()</td>
+                                                <td style ="vertical-align: middle; text-align: center;">@comment.Name</td>
+                                                <td style="vertical-align: middle; text-align: center;">
+                                                    @if (comment.IsConfırm)
+                                                    {
+                                                        <span class="media-badge color-white bg-success">Evet</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="media-badge color-white bg-warning">Onay Bekliyor</span>
+                                                    }
+                                                </td>
+
+                                                <td style="vertical-align: middle; text-align: center;">
+                                                    <!-- This ensures content inside the TD is vertically centered -->
+                                                    <div style="margin-top:5px;" class="button-group">
+                                                        @if (!User.IsInRole($"{RoleConsts.User}") && !comment.IsConfırm)
+                                                        {
+
+                                                            <a class="btn btn-success btn-sm mr-2 icon-btn" data-id="@comment.SecName" asp-area="Admin" asp-controller="Comment" asp-action="Approve" asp-route-secName="@comment.SecName">
+                                                                <i class="fa-solid fa-check"></i>
+                                                            </a>
+                                                        }
+                                                        @if (!User.IsInRole($"{RoleConsts.User}") && comment.IsConfırm)
+                                                        {
+                                                            <a class="btn btn-danger btn-sm mr-2 icon-btn" data-id="@comment.SecName" asp-area="Admin" asp-controller="Comment" asp-action="Reject" asp-route-secName="@comment.SecName">
+                                                                <i class="fa-solid fa-xmark"></i>
+                                                            </a>
+                                                        }
+                                                        <!-- Bootstrap 4 Primary Button -->
+                                                        <a class="btn btn-primary btn-sm mr-2" asp-area="Admin" asp-controller="Comment" asp-action="Update" asp-route-secName="@comment.SecName">
+                                                            Update
+                                                        </a>
+
+                                                        <!-- Bootstrap 4 Danger Button -->
+                                                        <a class="btn btn-danger btn-sm" asp-area="Admin" asp-controller="Comment" asp-action="Delete" asp-route-secName="@comment.SecName">
+                                                            Delete
+                                                        </a>
+                                                    </div>
+                                                </td>
+
+
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th class="text-center">Blog Ismı</th>
+                                            <th class="text-center">Blog Aktıf Mı</th>
+                                            <th class="text-center">Yorum Tarıh</th>
+                                            <th class="text-center">Yorum Yapan</th>
+                                            <th class="text-center">Durum ?</th>
+                                            @if (!User.IsInRole($"{RoleConsts.User}"))
+                                            {
+                                                <th class="text-center">İşlemler</th>
+                                            }
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+                <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+                <script src="https://cdn.datatables.net/1.13.6/js/dataTables.uikit.min.js"></script>
+
+                <script>
+                    new DataTable('#Table');
+                </script>
+
+
+            </div><!-- End: .userDatatable -->
+
+        </div>
+    </div>
+</div>

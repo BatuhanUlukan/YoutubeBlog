@@ -1,0 +1,254 @@
+﻿@{
+	Layout = null;
+}
+
+@model ArticleListDto
+
+<!DOCTYPE html>
+
+<!--
+   Template:   Aivo - Multipurpose Portfolio HTML Website Template
+   Author:     Themetorium
+   URL:        https://themetorium.net
+-->
+
+<html lang="en">
+<head>
+
+	<!-- Title -->
+	<title>Blog / Aivo - Multipurpose Portfolio HTML Website Template</title>
+
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="Responsive multipurpose portfolio HTML website template">
+	<meta name="keywords" content="HTML5, CSS3, Bootsrtrap, Responsive, Multipurpose, Portfolio, Template, Theme, Website, Themetorium" />
+	<meta name="author" content="themetorium.net">
+
+	<!-- Mobile Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Favicon (http://www.favicon-generator.org/) -->
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+
+	@await Component.InvokeAsync("CSS")
+
+</head>
+
+
+<!-- ===========
+///// Body /////
+================-->
+<body id="body" class="animsition tt-boxed">
+
+
+	<!-- =================
+	//// Begin header ////
+	======================-->
+	<header id="header" class="header-show-hide-on-scroll menu-align-right">
+
+		<!-- Begin header inner -->
+		<div class="header-inner tt-wrap">
+			@await Component.InvokeAsync("Header")
+		</div>
+		<!-- End header inner -->
+
+	</header>
+	<!-- End header -->
+	<!-- *************************************
+	*********** Begin body content ***********
+	************************************** -->
+	<div id="body-content">
+
+
+		<!-- ========================
+		///// Begin page header /////
+		=============================-->
+		<section id="page-header">
+
+			<!-- Begin page header image
+			=============================-->
+			<div class="page-header-image parallax-6 bg-image" style="background-image: url(assets/img/page-header/page-header-bg-16.jpg);">
+
+				<!-- Element cover
+				===================-->
+				<div class="cover cover-opacity-4"></div>
+
+			</div>
+			<!-- End page header image -->
+			<!-- Begin page header inner -->
+			<div class="page-header-inner tt-wrap">
+
+				<!-- Begin page header caption
+				===============================
+				-->
+				<div class="page-header-caption ph-cap-xlg ph-cap-light parallax-5 fade-out-scroll-4">
+					<div class="ph-title-wrap">
+						<h1 class="page-header-title">Search</h1>
+					</div>
+					<div class="ph-subtitle-wrap">
+						<h2 class="page-header-subtitle"></h2>
+					</div>
+
+					<!-- Begin zig-zag separator
+					=============================
+					-->
+					<div class="zig-zag-separator zig-zag-lg">
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+
+
+				</div>
+				<!-- End page header caption -->
+
+			</div>
+			<!-- End page header inner -->
+			<!-- Begin page header animated element
+
+			-->
+			<div class="ph-anim-element-wrap ph-anim-circle parallax-4">
+				<div class="ph-anim-element-holder">
+					<div class="ph-anim-element"></div>
+				</div>
+			</div>			<!-- End page header inner -->
+
+
+		</section>
+		<!-- End page header -->
+		<!-- ===================================
+		///// Begin search results section /////
+		==================================== -->
+		<section id="search-results-section">
+			<div class="srs-inner tt-wrap">
+				<!-- Begin big search box
+				==========================-->
+				<div class="big-search-box">
+					<div class="big-search-box-inner">
+
+						<!-- Begin big search box form -->
+						<form id="big-search-form" class="form-btn-inside" asp-controller="Home" asp-action="Search" method="GET">
+							<div class="big-search-input-wrap">
+								<input type="text" id="big-search-input" name="keyword" placeholder="Search something ...">
+								<button type="submit"><i class="fas fa-search"></i></button>
+							</div> <!-- /.big-search-input-wrap -->
+						</form>
+						<!-- End big search box form -->
+
+					</div> <!-- /.big-search-box-inner -->
+				</div>
+				<!-- End big search box -->
+				<!-- Begin search results
+				========================== -->
+				<div class="search-results">
+
+					<!-- <div class="no-search-results">
+						<h1>Nothing Found!</h1>
+						<p>Sorry, but nothing matched your search terms. Please try again with some different keywords.</p>
+					</div> -->
+					<!-- Begin search results head -->
+					<div class="search-results-head">
+						<div class="row">
+							<div class="col-sm-6">
+								<h3 class="srh-title">Search Results for: <span id="search-keyword"></span></h3>
+							</div> <!-- /.col -->
+
+							<div class="col-sm-6 text-right">
+								<div class="sr-count"><strong>@Model.Articles.Count()</strong> results are found</div>
+							</div> <!-- /.col -->
+						</div> <!-- /.row -->
+					</div>
+					<!-- End search results head -->
+					<!-- Begin search results items wrap -->
+					<div class="sr-items-wrap">
+
+						<!-- Begin search results item (Type: portfolio)
+						================================================= -->
+						@foreach (var item in Model.Articles)
+						{
+							<div class="search-results-item">
+
+								<!-- Begin search results item image -->
+								<a  class="sr-item-img-holder">
+									<div class="sr-item-img bg-image lazy" data-src="assets/img/portfolio/list/list-1/portfolio-list-1.jpg"></div>
+								</a>
+								<!-- End search results item image -->
+								<!-- Begin search results item info -->
+								<div class="sr-item-info">
+									<div class="sr-item-category"><a>@item.Category.Name</a></div>
+									<div class="sr-item-description">
+										@(item.Content.Length > 280 ? item.Content.Substring(0, 280) : item.Content) ...
+									</div>
+									<a asp-controller="Home" asp-action="Detail" asp-route-id="@item.Id" class="btn btn-default btn-sm margin-top-20">View </a>
+								</div>
+								<!-- End search results item info -->
+							</div>
+						}
+
+
+					</div>
+					<!-- End search results items wrap -->
+
+				</div>
+				<!-- End search results -->
+				<!-- Begin tt-pagination
+				=========================
+				* Use class "tt-pagin-center" or "tt-pagin-right" to align pagination
+				* Use class "tt-pagin-rounded" to enable pagination rounded style -->
+				<div class="tt-pagination-wrap">
+
+
+				</div>
+				<!-- End tt-pagination -->
+
+			</div>
+			<!-- End search results section inner -->
+
+		</section> <!-- /.search results section -->
+		<!-- ===========================
+		   ///// Begin footer section /////
+		   ================================-->
+		<section id="footer" class="footer-dark no-margin-top">
+
+			@await Component.InvokeAsync("Footer")
+
+		</section>		
+		<!-- End footer section -->
+
+	</div>
+	<!-- End body content -->
+	<!-- ====================
+	///// Scripts below /////
+	===================== -->
+	@await Component.InvokeAsync("JS")
+	<script>
+		// Sayfa yüklendiğinde çalışacak kod
+		document.addEventListener("DOMContentLoaded", function () {
+			// URL'den "keyword" parametresini al
+			const urlParams = new URLSearchParams(window.location.search);
+			const keyword = urlParams.get("keyword");
+
+			// "search-keyword" id'sine sahip <span> etiketinin içine keyword'i yerleştir
+			const searchKeywordElement = document.getElementById("search-keyword");
+			searchKeywordElement.textContent = keyword;
+		});
+	</script>
+
+
+
+
+	<!--==============================
+	///// Begin Google Analytics /////
+	============================== -->
+	<!-- Paste your Google Analytics code here.
+	Go to http://www.google.com/analytics/ for more information. -->
+	<!--==============================
+	///// End Google Analytics /////
+	============================== -->
+
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+﻿@using YoutubeBlog.Entity.DTOs.Duties
+@model List<DutyDto>
+
+@{
+	Layout = null;
+}
+
+
+@foreach (var item in Model)
+{
+	<div class="col-sm-6">
+
+		<!-- Begin info box -->
+		<div class="info-box">
+			<span class="info-box-icon"><span class="lnr lnr-@item.Icon"></span></span>
+			<div class="info-box-info">
+				<h3 class="info-box-heading"><a href="">@item.Name</a></h3>
+				<div class="info-box-text tt-ellipsis">
+					<!-- Use class "tt-ellipsis" to enable text element fixed height with ellipsis -->
+					@item.Content
+				</div>
+			</div> <!-- /.info-box-info -->
+		</div>
+		<!-- End info box -->
+
+	</div> <!-- /.col -->
+}
+
+

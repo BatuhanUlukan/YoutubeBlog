@@ -1,0 +1,28 @@
+﻿@using YoutubeBlog.Entity.DTOs.Articles
+@model List<ArticleDto>
+
+@{
+    Layout = null;
+}
+@foreach (var item in Model)
+{
+    <div class="cc-item">
+        <!-- Begin related posts item -->
+        <div class="related-posts-item">
+            <div class="rp-item-image-wrap">
+                <!-- Makalenin resmi için bir URL eklemelisiniz -->
+                <a asp-controller="Home" asp-action="Detail" asp-route-slug="@item.Slug" class="rp-item-image owl-lazy bg-image" data-src="/assets/images/@item.ArticleImages.FirstOrDefault()?.FileName.Replace('\\', '/')"></a>
+            </div>
+            <div class="rp-item-info">
+                @foreach (var article in item.Categories)
+                {
+                    <div class="rp-item-category"><a asp-controller="Home" asp-action="Category" asp-route-categoryName="@article.Name">@article.Name</a></div>
+                }           
+                <a asp-controller="Home" asp-action="Detail" asp-route-slug="@item.Slug" class="rp-item-title"><h4>@item.Title</h4></a>
+            </div>
+        </div>
+        <!-- End related posts item -->
+    </div>
+
+}
+

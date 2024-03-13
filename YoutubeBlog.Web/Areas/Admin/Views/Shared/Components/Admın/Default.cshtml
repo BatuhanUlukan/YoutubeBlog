@@ -1,0 +1,189 @@
+﻿@using YoutubeBlog.Web.Areas.Admin.Models
+@model AdminModel
+
+
+
+<ul class="sidebar_nav">
+    <li class="menu-title">
+        <span>Main menu</span>
+    </li>
+    <li class="has-child">
+        <a href="#" class="">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home nav-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span class="menu-text">Dashboard</span>
+            <span class="toggle-icon"></span>
+        </a>
+        <ul style="top: 128px; left: 220px; display: none;">
+            <li>
+                <a class="" href="@Url.Action("Articles", "Article", new { area = "Admin" })">Makale Yönetimi</a>
+            </li>
+            @if (Model.role == "True")
+            {
+
+                <li>
+                    <a class="" href="@Url.Action("Portfolios", "Portfolio", new { area = "Admin" })">Proje Yönetimi</a>
+                </li>
+                <li>
+                    <a class="" href="@Url.Action("Comments", "Comment", new { area = "Admin" })">Yorum Yönetimi</a>
+                </li>
+                <li>
+                    <a class="" href="@Url.Action("Contacts", "Contact", new { area = "Admin" })">İletişim Alanı Yönetimi</a>
+                </li>
+                <li>
+                    <a class="" href="@Url.Action("Index", "Category", new { area = "Admin" })">Kategori  Yönetimi </a>
+                </li>
+
+                <li>
+                    <a class="" href="@Url.Action("Clients", "Client", new { area = "Admin" })">Refarans  Yönetimi </a>
+                </li>       
+
+            }
+            else
+            {
+
+            }
+
+
+
+        </ul>
+    </li>
+
+    @if (Model.role == "True")
+    {
+        <li class="menu-title m-top-30">
+            <span>Settings</span>
+        </li>
+
+
+        <li class="has-child">
+            <a href="#" class="">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sliders nav-icon"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg><span class="menu-text">User & Role</span>
+                <span class="toggle-icon"></span>
+            </a>
+            <ul style="top: 228.1px; left: 220px; display: none;">
+
+
+                <li>
+                    <a href="@Url.Action("Users", "User", new { area = "Admin" })" class="">Kullanıcılar</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("SmtpSettings", "Home", new { area = "Admin" })" class="">SMTP</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Email", "Home", new { area = "Admin", category = "ınbox" })" class="">Email</a>
+                </li>
+
+            </ul>
+        </li>
+    }
+    else
+    {
+
+    }
+    @if (Model.role == "True")
+    {
+        <li class="menu-title m-top-30">
+            <span>Pages & Logo Settings</span>
+        </li>
+
+
+        <li class="has-child">
+            <a href="#" class="">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sliders nav-icon"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg><span class="menu-text">Pages & Logos</span>
+                <span class="toggle-icon"></span>
+            </a>
+            <ul style="top: 228.1px; left: 220px; display: none;">
+
+                <li>
+                    <a class="" href="@Url.Action("PageSeos", "Home", new { area = "Admin" })">Sayfa Seo Yönetimi </a>
+                </li>
+                <li>
+                    <a class="" href="@Url.Action("PageLogos", "Home", new { area = "Admin" })">Sayfa Logo Yönetimi </a>
+                </li>
+                <li>
+                    <a class="" href="@Url.Action("PageSliders", "Home", new { area = "Admin" })">Sayfa Slider Yönetimi </a>
+                </li>
+                <li>
+                    <a class="" href="@Url.Action("PageFacts", "Home", new { area = "Admin" })">Sayfa Fact Yönetimi </a>
+                </li>
+
+
+            </ul>
+        </li>
+    }
+    else
+    {
+
+    }
+
+    <li class="menu-title m-top-30">
+        <span>Duty & Social Settings</span>
+    </li>
+
+
+    <li class="has-child">
+        <a href="#" class="">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sliders nav-icon"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg><span class="menu-text">Duty & Social</span>
+            <span class="toggle-icon"></span>
+        </a>
+        <ul style="top: 228.1px; left: 220px; display: none;">
+
+
+            <li>
+                <a class="" href="@Url.Action("Socials", "User", new { area = "Admin" })">Sosyal Medya  Yönetimi </a>
+            </li>
+            <li>
+                <a class="" href="@Url.Action("Duties", "User", new { area = "Admin" })">Servisler Yönetimi </a>
+            </li>
+
+        </ul>
+    </li>
+
+
+
+    <li class="menu-title m-top-30">
+        <span>Trash Box</span>
+    </li>
+
+
+    <li class="has-child">
+        <a href="#" class="">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash nav-icon"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            <span class="menu-text">Trashs</span>
+            <span class="toggle-icon"></span>
+        </a>
+        <ul style="top: 228.1px; left: 220px; display: none;">
+            <li>
+                <a href="@Url.Action("DeletedArticle", "Article", new { area = "Admin" })" class="">Makaleler</a>
+            </li>
+            <li>
+                <a href="@Url.Action("DeletedDuties", "User", new { area = "Admin" })" class="">Servisler</a>
+            </li>
+            <li>
+                <a href="@Url.Action("DeletedSocials", "User", new { area = "Admin" })" class="">Sosyal Medya</a>
+            </li>
+            @if (Model.role == "True")
+            {
+                <li>
+                    <a href="@Url.Action("DeletedCategory", "Category", new { area = "Admin" })" class="">Kategoriler</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("DeletedPortfolio", "Portfolio", new { area = "Admin" })" class="">Projeler</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("DeletedContact", "Contact", new { area = "Admin" })" class="">İletişim Alanı</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("DeletedClients", "Client", new { area = "Admin" })" class="">Refarans  Yönetimi </a>
+                </li>
+            }
+            else
+            {
+
+            }
+
+        </ul>
+    </li>
+
+</ul>
+

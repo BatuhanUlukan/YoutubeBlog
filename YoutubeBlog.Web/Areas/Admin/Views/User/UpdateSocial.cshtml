@@ -1,0 +1,89 @@
+﻿@using YoutubeBlog.Entity.DTOs.Socials
+@using YoutubeBlog.Web.Consts;
+@model SocialUpdateDto
+<div class="container-xxl flex-grow-1 container-p-y">
+
+
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Social Yönetimi /</span> Social Ekle
+    </h4>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <form asp-controller="User" asp-action="UpdateSocial" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="card-body">
+
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">Social Name</label>
+                            <div class="input-group ">
+                                <span id="basic-icon-default-fullname2" class="input-group-text"><i class='bx bx-rename'></i></span>
+                                <input asp-for="Name" type="text" class="form-control" id="basic-icon-default-fullname" placeholder="Enter Social Name" aria-describedby="basic-icon-default-fullname2">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">Social Link</label>
+                            <div class="input-group ">
+                                <span id="basic-icon-default-fullname2" class="input-group-text"><i class='bx bx-link-alt'></i></span>
+                                <input asp-for="Link" type="text" class="form-control" id="basic-icon-default-fullname" placeholder="Enter Social Link" aria-describedby="basic-icon-default-fullname2">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">Icon Name  </label>
+                            <div class="input-group ">
+                                <span id="basic-icon-default-fullname2" class="input-group-text"><i class='bx bxs-purchase-tag'></i></span>
+                                <input asp-for="Icon" type="text" class="form-control" id="basic-icon-default-fullname" placeholder="Enter Icon Name" aria-describedby="basic-icon-default-fullname2">
+                                <span class="input-group-text" id="basic-addon13">plus</span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="checkbox-theme-default custom-checkbox">
+
+                            <input class="checkbox" type="checkbox" asp-for="IsActive">
+                            <label asp-for="IsActive">
+                                Aktif Mi ?
+                            </label>
+
+                        </div>
+                        @if (User.IsInRole($"{RoleConsts.Superadmin}"))
+                        {
+                            <div class="checkbox-theme-default custom-checkbox">
+
+                                <input class="checkbox" type="checkbox" asp-for="IsMaın">
+                                <label asp-for="IsMaın">
+                                    Ana Sayfa Da Mı ?
+                                </label>
+
+                            </div>
+                        }
+                        else
+                        {
+
+                        }
+                        <br />
+                        <div class="form-group d-flex align-items-center">
+                            <!-- Added 'd-flex' and 'align-items-center' classes for flexbox and vertical alignment -->
+                            <button type="submit" class="btn btn-primary btn-sm me-2">Guncelle</button> <!-- Added 'me-2' for margin to the right -->
+                            <a href="https://fontawesome.com/icons" target="_blank" style="margin-left:2px;" class="btn btn-primary btn-sm me-2">Tüm Iconları Gör</a>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        CKEDITOR.replace('editor', {
+            filebrowserBrowseUrl: '/elfinder'
+        });
+    });
+</script>
+<script src="~/Assets/Plugins/ckeditor/ckeditor.js"></script>

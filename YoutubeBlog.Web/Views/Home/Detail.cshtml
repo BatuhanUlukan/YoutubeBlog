@@ -1,0 +1,444 @@
+﻿@using YoutubeBlog.Web.ViewComponents
+@model HomeIndexViewModel
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<!--
+   Template:   Aivo - Multipurpose Portfolio HTML Website Template
+   Author:     Themetorium
+   URL:        https://themetorium.net
+-->
+<html lang="en">
+<head>
+
+    <!-- Title -->
+    <title>@Model.Article.Title</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="@Model.Article.Description">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon (http://www.favicon-generator.org/) -->
+    @await Component.InvokeAsync("CSS")
+
+
+</head>
+
+<!-- ===========
+///// Body /////
+================
+-->
+<body id="body" class="animsition tt-boxed">
+
+
+    <!-- =================
+    //// Begin header ////
+    =====================-->
+    <header id="header" class="header-show-hide-on-scroll menu-align-right">
+
+        <!-- Begin header inner -->
+        <div class="header-inner tt-wrap">
+            @await Component.InvokeAsync("Header")
+        </div>
+        <!-- End header inner -->
+
+    </header>
+    <!-- End header -->
+    <!-- *************************************
+    *********** Begin body content ***********
+    ************************************** -->
+    <div id="body-content">
+
+        <!-- ========================
+        ///// Begin page header /////
+        =============================-->
+        ,<section id="page-header" class="ph-lg">
+            @if (Model.Article.ArticleImages != null && Model.Article.ArticleImages.Any())
+            {
+                var image = Model.Article.ArticleImages.Last();
+                var imageUrl = "/assets/images/" + image.FileName.Replace('\\', '/');
+
+                <div class="page-header-image parallax-6 bg-image" style="background-image: url('@imageUrl'); top: -62.675px; bottom: -62.675px; transform: translate3d(0px, 0px, 0px);">
+                    <div class="cover cover-opacity-4"></div>
+                </div>
+            }
+            else
+            {
+                <div class="page-header-image parallax-6 bg-image" style="background-image: url('/assets/demo.jpg'); top: -62.675px; bottom: -62.675px; transform: translate3d(0px, 0px, 0px);">
+                    <div class="cover cover-opacity-4"></div>
+                </div>
+            }
+
+            <!-- End page header image -->
+            <!-- Begin page header inner -->
+            <div class="page-header-inner tt-wrap">
+
+                <!-- Begin page header caption
+                -->
+                <div class="page-header-caption ph-cap-lg ph-cap-light ph-cap-shadow parallax-5 fade-out-scroll-4" style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
+                    <div class="ph-title-wrap">
+                        <h1 class="page-header-title">@Model.Article.Title</h1>
+                    </div>
+
+                    <div class="zig-zag-separator zig-zag-lg">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <!-- End zig-zag separator -->
+
+
+                </div>
+                <!-- End page header caption -->
+
+            </div>
+
+
+        </section>
+
+
+        <!-- End page header -->
+        <!-- ====================================
+        /////// Begin blog single section ///////
+        ===================================== -->
+        <section id="blog-single-section">
+            <div class="blog-single-inner tt-wrap">
+                <!-- add/remove class "tt-wrap" to enable/disable element boxed layout (class "tt-boxed" is required in <body> tag!). Note: additionally you can use prepared helper class "max-width-*" to add custom width to "tt-wrap". Example: "max-width-1500" (class "tt-wrap" is still required!). More info about helper classes in file "helper.css" -->
+
+                <div class="row no-margin">
+
+                    <!-- Content column -->
+                    <div class="col-md-8 no-padding-left no-padding-right">
+
+                        <!-- Begin blog single post
+                        ============================= -->
+                        <article class="blog-single-post">
+
+
+                            <!-- Begin blog single heading -->
+                            <div class="blog-single-post-heading">
+                                <div class="blog-single-post-category">
+                                    @foreach (var item in Model.Article.Categories)
+                                    {
+                                        <a asp-controller="Home" asp-action="Category" asp-route-categoryName="@item.Name">
+                                            @item.Name
+                                        </a>
+                                    }
+                             
+                                </div>
+                            </div>
+
+
+                            <!-- End blog single heading -->
+                            <!-- Begin blog single post inner -->
+                            <div class="blog-single-post-inner">
+
+                                <!-- Begin blog single attributes -->
+                                <div class="blog-single-attributes">
+                                    <div class="row">
+                                        <div class="col-sm-8">
+
+                                            <!-- Begin blog single meta -->
+                                            <div class="blog-single-meta-wrap">
+                                                @if (Model.Article.User.UserImagess != null && Model.Article.User.UserImagess.Any())
+                                                {
+                                                    @foreach (var item in Model.Article.User.UserImagess)
+                                                    {
+                                                        <label class="author-avatar pull-left bg-image" style="background-image: url(/assets/images/user-images/@item.FileName);"></label>
+
+                                                    }
+                                                }
+
+                                                <div class="blog-single-meta">
+                                                    <div class="article-author">Author: <a asp-controller="Home" asp-action="About" asp-route-user="@Model.Article.User.SecName">@Model.Article.User.FirstName @Model.Article.User.LastName</a></div>
+                                                    <div class="article-time-cat">
+                                                        <span class="article-time">@Model.Article.CreatedDate.ToString("dd/MM/yyyy")</span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- End blog single meta -->
+
+                                        </div> <!-- /.col -->
+
+
+                                        <div class="col-sm-4">
+
+                                            <!-- Begin blog single links -->
+                                            <ul class="blog-single-links list-unstyled list-inline">
+                                                <li>
+                                                    <!-- Begin comments count -->
+                                                    <span class="blog-single-comment-count sm-scroll" title="ViewCount"><i class="far fa-eye"></i>  @Model.Article.ViewCount</span>
+                                                    <!-- End comments count -->
+                                                </li>
+                                            </ul>
+                                            <!-- End blog single links -->
+
+                                        </div> <!-- /.col -->
+                                    </div> <!-- /.row -->
+                                </div>
+                                <!-- End blog single attributes -->
+
+                                <div class="post-content lightgallery">
+                                    @if (Model.Article.IsSliderIsActive)
+                                    {
+
+                                        <div class="blog-single-slider">
+
+
+                                            <div class="owl-carousel dots-outside dots-rounded owl-loaded" data-lazy-load="true" data-items="1" data-nav="true" data-mouse-drag="false" data-loop="true">
+
+
+                                                <div class="owl-stage-outer">
+                                                    <div class="owl-stage" style="transform: translate3d(-880px, 0px, 0px); transition: all 0s ease 0s; width: 3083px;">
+                                                        @if (Model.Article.ArticleImages != null && Model.Article.ArticleImages.Any())
+                                                        {
+                                                            @foreach (var image in Model.Article.ArticleImages)
+                                                            {
+                                                                <div class="owl-item" style="width: 1252px;">
+                                                                    <div class="cc-item">
+                                                                        @{
+
+                                                                            var imageUrl = "/assets/image/" + image.FileName.Replace('\\', '/');
+                                                                            var dataSrc = "/assets/images/" + image.FileName.Replace('\\', '/');
+                                                                        }
+
+                                                                        <!-- Begin portfolio single image -->
+                                                                        <figure class="portfolio-single-image-holder">
+                                                                            <a href="@dataSrc" class="ps-image-link lg-trigger" data-exthumbnail="@dataSrc" data-sub-html="">
+                                                                                <div class="owl-lazy-loader"></div>
+                                                                                <div class="portfolio-single-image padding-height-60 owl-lazy bg-image" data-src="@dataSrc" style="background-image: url('@imageUrl'); opacity: 1;">
+                                                                                    <div class="ps-image-icon">
+                                                                                        <span class="lnr lnr-eye"></span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </a>
+                                                                        </figure>
+                                                                        <!-- End portfolio single image -->
+                                                                    </div>
+                                                                </div>
+                                                            }
+
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <!-- End content carousel -->
+
+                                            </div>
+
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                    }
+                                    @Html.Raw(Model.Article.Content)
+
+                                    <!-- End post content -->
+                                    <!-- Begin blog single attributes -->
+                                    <div class="blog-single-attributes margin-top-60">
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                            </div> <!-- /.col -->
+
+                                            <div class="col-sm-4 text-right">
+
+                                                <!-- Begin blog single links -->
+                                                <ul class="blog-single-links list-unstyled list-inline">
+                                                    <li>
+                                                        <!-- Begin leave a comment button -->
+                                                        <a href="#post-comment-form" class="leave-comment-btn sm-scroll">Leave a Comment</a>
+                                                        <!-- End leave a comment button -->
+                                                    </li>
+                                                </ul>
+                                                <!-- End blog single links -->
+
+                                            </div> <!-- /.col -->
+                                        </div> <!-- /.col -->
+                                    </div>
+                                    <!-- End blog single attributes -->
+                                    <!-- Begin blog single post share-->
+                                    @{
+                                        var currentUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}{Context.Request.QueryString}";
+                                    }
+
+                                    <div class="blog-single-share bss-fixed-bottom">
+                                        <div class="bss-text">Share This Post:</div>
+                                        <ul>
+                                            <li><a href="https://www.facebook.com/sharer/sharer.php?u=@Uri.EscapeDataString(currentUrl)" class="btn btn-social-min btn-facebook" title="Share on facebook" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                                            <li><a href="https://twitter.com/share?url=@Uri.EscapeDataString(currentUrl)" class="btn btn-social-min btn-twitter" title="Share on twitter" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                                            <li><a href="https://plus.google.com/share?url=@Uri.EscapeDataString(currentUrl)" class="btn btn-social-min btn-google" title="Share on google+" target="_blank"><i class="fab fa-google-plus-g"></i></a></li>
+                                            <li><a href="https://pinterest.com/pin/create/button/?url=@Uri.EscapeDataString(currentUrl)" class="btn btn-social-min btn-pinterest" title="Share on pinterest" target="_blank"><i class="fab fa-pinterest-p"></i></a></li>
+                                            <li><a href="https://www.linkedin.com/shareArticle?mini=true&url=@Uri.EscapeDataString(currentUrl)" class="btn btn-social-min btn-linkedin" title="Share on linkedin" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- End blog single post share -->
+
+                                </div>
+
+
+                                <!-- Begin post content -->
+                                <!-- End blog single post inner -->
+                                @await Component.InvokeAsync("BackNext", new { slug = Model.Article.Slug })
+                            </div>
+
+                        </article>
+                        <!-- End blog single post -->
+                        <!-- Begin blog single nav
+                        =========================== -->
+                        <!-- End blog single nav -->
+                        <!-- Begin related posts
+                        ========================= -->
+                        <div class="related-posts">
+                            <h3 class="related-posts-heading">You Might Also Like:</h3>
+
+                            <!-- Begin related posts carousel
+                            ================================== -->
+                            <div class="related-posts-carousel">
+
+                                <!-- Begin content carousel
+                                ==================================================================== -->
+                                <div class="owl-carousel nav-outside-top" data-lazy-load="true" data-items="3" data-margin="20" data-nav="true" data-dots="false" data-mobile-landscape="2" data-mobile-portrait="1">
+
+                                    <!-- Begin carousel item
+                                    ========================= -->
+@*                                     @await Component.InvokeAsync("RandomArticles", new { categoryId = Model.Article.Categories })
+ *@
+                                    <!-- End carousel item -->
+                                    <!-- Begin carousel item
+                                    ========================= -->
+
+                                </div>
+                                <!-- End content carousel -->
+
+                            </div>
+                            <!-- End related posts carousel -->
+
+                        </div>
+                        <!-- End related posts -->
+                        <!-- Begin post comments
+                        ========================= -->
+                        <div id="blog-post-comments">
+
+
+                            @await Component.InvokeAsync("ListComment", new { articleId = Model.Article.Id })
+
+                            <hidden></hidden>
+                            <!-- End media list -->
+                            <!-- Begin post comment form -->
+                            @await Component.InvokeAsync("AddComment", new { articleId = Model.Article.Id })
+
+
+
+
+                        </div>
+                        <!-- End post comments -->
+
+                    </div> <!-- /.col (Content column) -->
+                    <!-- Sidebar column -->
+                    <div class="col-md-4 no-padding-left no-padding-right">
+
+                        <!-- Begin sidebar (sidebar right)
+                        =================================== -->
+                        <div class="sidebar sidebar-right">
+                            <div class="row">
+                                @await Component.InvokeAsync("SideBarAbout", new { articleId = Model.Article.Id, userId = Model.Article.User.Id })
+
+                                @await Component.InvokeAsync("SideBar")
+                            </div> <!-- /.row -->
+                        </div>
+                        <!-- End sidebar -->
+
+                    </div> <!-- /.col (Sidebar column) -->
+
+                </div> <!-- /.row -->
+
+            </div> <!-- /.blog-single-inner -->
+        </section>
+        <!-- End blog single section -->
+        <!-- ===========================
+           ///// Begin footer section /////
+           ================================
+           * Use class "footer-dark" to enable dark footer.
+           * Use class "no-margin-top" if needed.
+           -->
+        <section id="footer" class="footer-dark no-margin-top">
+
+            @await Component.InvokeAsync("Footer")
+
+        </section>
+
+
+    </div>
+    <!-- End body content -->
+    <!-- ====================
+    ///// Scripts below /////
+    ===================== -->
+    @await Component.InvokeAsync("JS")
+
+
+    <!--==============================
+    ///// Begin Google Analytics /////
+    ============================== -->
+    <!-- Paste your Google Analytics code here.
+    Go to http://www.google.com/analytics/ for more information. -->
+    <!--==============================
+    ///// End Google Analytics /////
+    ============================== -->
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,142 @@
+﻿@model ArticleListDto
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@Model.PageSeos.Title</title>
+    <meta name="description" content="@Model.PageSeos.Description">
+    <meta name="keywords" content="@Model.PageSeos.Keywords" />
+    <meta name="title" content="@Model.PageSeos.Title" />
+    <meta name="author" content="@Model.PageSeos.Page">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    @await Component.InvokeAsync("CSS")
+</head>
+<body id="body" class="animsition tt-boxed">
+    <header id="header" class="header-show-hide-on-scroll menu-align-right">
+        <div class="header-inner tt-wrap">
+            @await Component.InvokeAsync("Header")
+        </div>
+    </header>
+
+    <div id="body-content">
+        <section id="page-header">
+
+
+            <div class="page-header-image parallax-6 bg-image" style="background-image: url(&quot;/assets/blogheader.png&quot;); top: -82.5px; bottom: -82.5px;">
+
+              
+                <div class="cover cover-opacity-4"></div>
+
+            </div>
+            <!-- End page header image -->
+            <!-- Begin page header inner -->
+            <div class="page-header-inner tt-wrap">
+
+      
+                <div class="page-header-caption ph-cap-xlg ph-cap-light parallax-5 fade-out-scroll-4">
+                    <div class="ph-title-wrap">
+                        <h1 class="page-header-title">Blog</h1>
+                    </div>
+                    <div class="ph-subtitle-wrap">
+                        <h2 class="page-header-subtitle">Articles &amp; News</h2>
+                    </div>
+
+                </div>
+                <!-- End page header caption -->
+
+            </div>
+
+            <div class="ph-anim-element-wrap ph-anim-circle parallax-4">
+                <div class="ph-anim-element-holder">
+                    <div class="ph-anim-element"></div>
+                </div>
+            </div>
+            <!-- End page header animated element -->
+
+        </section>        <section id="blog-list-section" class="blog-list-grid blg-fluid-sidebar">
+            <div class="blog-list-inner">
+                <div class="row no-margin">
+                    <div class="col-md-8 col-lg-9 no-padding-left no-padding-right">
+                        <div class="isotope-wrap">
+                            <div class="isotope col-3 gutter-4">
+                                <div class="isotope-items-wrap no-margin">
+                                    <div class="grid-sizer"></div>
+                                    @foreach (var item in Model.Articles)
+                                    {
+  
+                                        <div class="isotope-item">
+                                            <article class="blog-list-item">
+                                                <div class="bl-item-image-wrap">
+                                                    @{
+                                                        var imageUrl = "/assets/images/" + (item.ArticleImages.FirstOrDefault()?.FileName ?? "").Replace("\\", "/");
+                                                    }
+                                                    <a asp-controller="Home" asp-action="Detail" asp-route-slug="@item.Slug" class="bl-item-image bg-image lazy" style="background-image: url('@imageUrl');"></a>
+                                                </div>
+                                                <div class="bl-item-info">
+                                                    <div class="bl-item-category">
+                                                        <a asp-controller="Home" asp-action="Category" asp-route-categoryName="@item.Category.Name">@item.Category.Name</a>
+                                                    </div>
+                                                    <a asp-controller="Home" asp-action="Detail" asp-route-slug="@item.Slug" class="bl-item-title"><h2>@item.Title</h2></a>
+                                                    <div class="bl-item-meta">
+                                                        <span class="published">@item.CreatedDate.ToString("MMM dd, yyyy")</span>
+                                                        <span class="posted-by">- by <a asp-controller="Home" asp-action="About" asp-route-user="@item.User.SecName" title="View about me by @item.User.FirstName @item.User.LastName">@item.User.FirstName @item.User.LastName</a></span>
+                                                    </div>
+                                                    <div class="bl-item-desc">
+                                                        @Html.Raw(item.Content.Length > 100 ? item.Content.Substring(0, 100) + "..." : item.Content)
+                                                    </div>
+
+                                                    <ul class="bl-item-attr">
+                                                        <li>
+                                                            <span class="bl-item-comments-count" title="View Count"><i class="far fa-eye"></i> @item.ViewCount</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </article>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tt-pagination-wrap">
+                            <ul class="tt-pagination">
+                                @if (Model.ShowPrevious)
+                                {
+                                    <li><a asp-route-currentPage="@(Model.CurrentPage - 1)" asp-route-pageSize="@Model.PageSize">Prev</a></li>
+                                }
+                                @for (int i = 1; i <= Model.TotalPages; i++)
+                                {
+                                    <li class="@(i == Model.CurrentPage ? "active" : "")">
+                                        <a class="page-link" asp-route-currentPage="@i" asp-route-pageSize="@Model.PageSize">@i</a>
+                                    </li>
+                                }
+                                @if (Model.ShowNext)
+                                {
+                                    <li><a asp-route-currentPage="@(Model.CurrentPage + 1)" asp-route-pageSize="@Model.PageSize">Next</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 no-padding-left no-padding-right">
+                        <div class="sidebar sidebar-right">
+                            <div class="row">
+                                @await Component.InvokeAsync("SideBar")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="footer" class="footer-dark no-margin-top">
+            @await Component.InvokeAsync("Footer")
+        </section>
+    </div>
+    @await Component.InvokeAsync("JS")
+</body>
+</html>

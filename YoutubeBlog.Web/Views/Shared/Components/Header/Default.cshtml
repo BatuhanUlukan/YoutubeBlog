@@ -1,0 +1,228 @@
+﻿@using System.Web
+@using YoutubeBlog.Entity.DTOs.Logos
+
+@model HeaderModel
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+@if (TempData.ContainsKey("successMessage") || TempData.ContainsKey("exitMessage"))
+{
+    <script>
+        @if (TempData.ContainsKey("successMessage"))
+        {
+            <text>
+                Toastify({
+                    text: '@Html.Raw(HttpUtility.HtmlEncode(TempData["successMessage"]))',
+                    duration: 1000,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "green",
+                }).showToast();
+            </text>
+        }
+        @if (TempData.ContainsKey("exitMessage"))
+        {
+            <text>
+                Toastify({
+                    text: '@Html.Raw(HttpUtility.HtmlEncode(TempData["exitMessage"]))',
+                    duration: 1000,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "red",
+                }).showToast();
+            </text>
+        }
+    </script>
+}
+
+
+
+<script>
+    $(document).ready(function () {
+        // Hide the dropdown initially
+        $('.dropdown-menu').hide();
+
+        // When the image is clicked, toggle the dropdown
+        $('#loginDropdown img').click(function () {
+            // Toggle the dropdown
+            $('.dropdown-menu').toggle();
+
+            // Adjust the style when the dropdown is shown
+            if ($('.dropdown-menu').is(':visible')) {
+                $('.dropdown-menu').css({
+                    'position': 'absolute',
+                    'inset': '0px 0px auto auto',
+                    'margin': '0px',
+                    'transform': 'translate3d(0px, 57px, 0px)'
+                });
+            }
+        });
+
+        // Close the dropdown if the user clicks outside of it
+        $(document).click(function (e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown-menu').hide();
+            }
+        });
+    });
+</script>
+
+
+  <style>
+    .dropdown-menu {
+        inset: 0px 15px auto auto !important;
+        width: 180px;
+
+    }
+
+  </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J8ZFCMMBYZ"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-J8ZFCMMBYZ');
+</script>
+
+<!-- Begin logo -->
+<div id="logo">
+    <!-- logo images for big screens -->
+    @foreach (var image in Model.Logos.LogoImages)
+    {
+        <a href="/" class="logo-dark"><img src="\assets\images\@image.FileName" alt="@Model.Logos.Slug"></a>
+    }
+</div>
+<!-- End logo -->
+<!-- Begin header attributes -->
+<div class="header-attributes">
+    <ul>
+        <!-- Begin header attributes search (global search) -->
+        <li>
+            <a href="#" class="h-attr-search-trigger"><i class="fas fa-search"></i></a>
+            <div class="h-attr-search">
+                <div class="h-attr-search-inner">
+                    <p class="h-attr-search-text">Search</p>
+                    <form id="search_form" asp-controller="Home" asp-action="Search" class="form-btn-inside" method="GET">
+                        <input type="text" id="h-attr-search-input" name="keyword" placeholder="Type your keywords ...">
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+
+                </div> <!-- /.h-attr-search-inner -->
+                <div class="h-attr-search-close"><i class="tt-close-btn tt-close-light"></i> <span>Close</span></div>
+            </div> <!-- /.h-attr-search -->
+        </li>
+        <!-- Begin mobile menu toggle button (tt-main-menu) -->
+        <li>
+            <div id="tt-m-menu-toggle-btn">
+                <span></span>
+            </div>
+        </li>
+        <!-- End mobile menu toggle button -->
+        <!-- Begin header attributes search -->
+        <li style="position: relative;">
+            @if (Model.Users != null && Model.Users.Email.Any())
+            {
+                var imageUrl = "/assets/images/" + @Model.Users.UserImagess.FirstOrDefault()?.FileName.Replace('\\', '/') ;
+                <nav class="tt-main-menu">
+                    <!-- Collect the nav links for toggling -->
+                    <div class="tt-menu-collapse tt-submenu-dark">
+                        <ul class="tt-menu-nav">
+                            <li class="tt-submenu-wrap tt-submenu-master">
+                                <img src="@imageUrl" alt="Profile Picture" class="profile-picture" style="margin-left:15px; margin-top:25px; width: 30px; height: 30px;">
+                                <div class="tt-submenu">
+                                    <ul class="tt-submenu-list">
+                                        <li><a asp-area="Admin" asp-controller="Home" asp-action="ABase" target="_blank">Go Admin Panel</a></li>
+                                        <li><a asp-area="Admin" asp-controller="Auth" asp-action="HeadLogout">Logout</a></li>
+                                    </ul> <!-- /.tt-submenu-list -->
+                                </div> <!-- /.tt-submenu -->
+                                <div class="tt-m-submenu-toggle"></div>
+                            </li>
+                        </ul> <!-- /.tt-menu-nav -->
+                    </div> <!-- /.tt-menu-collapse -->
+                </nav>
+                <!-- End main menu -->
+            }
+            else
+            {
+
+
+                <ul class="tt-submenu-list">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-placement="start">
+                            <!-- Login metni yerine bir resim (image) -->
+                            <img src="~/assets/egg.webp" alt="Login Icon" style="margin-left:15px; margin-top:25px; width: 30px; height: 30px;">
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="loginDropdown" style="width: 240px;">
+                            <!-- Set the width of the dropdown menu -->
+                            <li>
+                                <div class="container mt-6">
+                                    <form asp-area="Admin" asp-controller="Auth" asp-action="HeadLogin" method="POST">
+
+                                        <div class="mb-6">
+                                            <label style="font-size: 15px !important;" for="username" class="form-label">Username:</label>
+                                            <input asp-for="UserLogin.Email" type="text" class="form-control" placeholder="Username" style="width: 200px; height:40px;" required> <!-- Set the width of the input -->
+                                            @if (Model.EmailError != null)
+                                            {
+                                                <div class="text-danger" style="font-size: 15px !important;">@Model.EmailError</div>
+                                            }
+                                        </div>
+
+                                        <div class="mb-6">
+                                            <label style="font-size: 15px !important;" for="password" class="form-label">Password:</label>
+                                            <input asp-for="UserLogin.Password" type="password" class="form-control" placeholder="Password" style="width: 200px; height:40px;" required> <!-- Set the width of the input -->
+                                            @if (Model.PasswordError != null)
+                                            {
+                                                <div class="text-danger" style="font-size: 15px !important;">@Model.PasswordError</div>
+                                            }
+                                        </div>
+
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" class="btn btn-sm btn-info">Login</button>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+
+            }
+    </ul>
+</div>
+<!-- End header attributes -->
+<!-- Begin main menu -->
+<nav class="tt-main-menu">
+    <!-- Collect the nav links for toggling -->
+    <div class="tt-menu-collapse tt-submenu-dark">
+        <ul class="tt-menu-nav">
+            <!-- Begin submenu (submenu master) -->
+            <li class="tt-submenu-wrap tt-submenu-master">
+                <a href="/">Home</a>
+            </li>
+            <!-- End submenu (sub-master) -->
+            <!-- Begin submenu (submenu master) -->
+            <li class="tt-submenu-wrap tt-submenu-master">
+                <a asp-controller="Portfolio" asp-action="Index">Portfolio</a>
+            </li>
+            <!-- End submenu (sub-master) -->
+            <!-- Begin submenu (submenu master) -->
+            <li class="tt-submenu-wrap tt-submenu-master">
+                <a asp-controller="Home" asp-action="Index">Blog</a>
+            </li>
+            <!-- End submenu (sub-master) -->
+            <!-- Begin submenu (submenu master) -->
+            <li class="tt-submenu-wrap tt-submenu-master">
+                <a asp-controller="Contact" asp-action="Index">Contact</a>
+            </li>
+            <!-- End submenu (sub-master) -->
+        </ul> <!-- /.tt-menu-nav -->
+    </div> <!-- /.tt-menu-collapse -->
+</nav>
+<!-- End main menu -->

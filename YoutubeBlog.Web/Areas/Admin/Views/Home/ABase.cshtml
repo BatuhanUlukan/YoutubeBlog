@@ -1,0 +1,60 @@
+﻿@using YoutubeBlog.Entity.DTOs.Abouts;
+@using YoutubeBlog.Web.Consts
+@model List<AboutDto>
+@if (User.IsInRole(RoleConsts.Admin) || User.IsInRole(RoleConsts.Superadmin))
+{
+    <div class="row">
+        @foreach (var about in Model)
+        {
+            <div style="margin-top:20px;" class="col-xxl-4">
+                <!-- Card Start -->
+                <div class="ap-po-details ap-po-details--2 p-30 radius-xl bg-white d-flex justify-content-between mb-25 position-relative">
+                    <div>
+                        <div class="overview-content overview-content3">
+                            <div class="d-flex">
+                                <div class="revenue-chart-box__Icon mr-20 order-bg-opacity-primary">
+                                    @foreach (var image in about.AboutImages)
+                                    {
+                                        var imageUrl = "/assets/images/" + image.FileName.Replace('\\', '/');
+                                        <img src="@imageUrl" alt="img" class="svg">
+                                    }
+                                </div>
+                                <div>
+                                    <h2>@about.Name2</h2>
+                                    <p class="mb-3 mt-1">@about.Content</p>
+                                    <div class="ap-po-details-time">
+                                        <small>
+                                            @{
+                                                string subContent = about.SubContent;
+
+                                                if (!string.IsNullOrEmpty(subContent))
+                                                {
+                                                    if (subContent.Length > 60)
+                                                    {
+                                                        subContent = subContent.Substring(0, 60) + "...";
+                                                    }
+
+                                                    @subContent
+                                                }
+                                            }
+
+                                        </small>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Button in the top-right corner -->
+                    <a asp-action="UpdateAbout" asp-controller="Home" asp-route-aboutName="@about.Name" type="button" class="btn btn-sm btn-warning" style="position: absolute; top: 0; right: 0; margin: 10px;">Hakkında Guncelle</a>
+                </div>
+                <!-- Card End -->
+            </div>
+        }
+    </div>
+
+}
+else
+{
+
+}

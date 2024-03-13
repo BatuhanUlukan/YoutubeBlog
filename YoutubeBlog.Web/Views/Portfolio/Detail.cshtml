@@ -1,0 +1,322 @@
+﻿@{
+    Layout = null;
+}
+@using YoutubeBlog.Web.ViewComponents
+@model PortfolioDto
+
+
+<!DOCTYPE html>
+
+<!--
+   Template:   Aivo - Multipurpose Portfolio HTML Website Template
+   Author:     Themetorium
+   URL:        https://themetorium.net
+-->
+
+<html lang="en">
+<head>
+
+    <!-- Title -->
+    <title>@Model.Title</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Responsive multipurpose portfolio HTML website template">
+    <meta name="keywords" content="HTML5, CSS3, Bootsrtrap, Responsive, Multipurpose, Portfolio, Template, Theme, Website, Themetorium" />
+    <meta name="author" content="themetorium.net">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon (http://www.favicon-generator.org/) -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    @await Component.InvokeAsync("CSS")
+
+
+</head>
+
+
+<!-- ===========
+///// Body /////
+================-->
+<body id="body" class="animsition tt-boxed">
+
+
+    <!-- =================
+    //// Begin header ////
+    ====================== -->
+    <header id="header" class="header-show-hide-on-scroll menu-align-right">
+
+        <!-- Begin header inner -->
+        <div class="header-inner tt-wrap">
+            @await Component.InvokeAsync("Header")
+        </div>
+        <!-- End header inner -->
+
+    </header>
+    <!-- End header -->
+    <!-- *************************************
+    *********** Begin body content ***********
+    ************************************** -->
+    <div id="body-content">
+
+
+        <section id="page-header">
+
+            <!-- Begin page header image
+            =============================
+            -->
+            <div class="page-header-image hide-ph-image parallax-6 bg-image" style="background-image: url(assets/img/page-header/page-header-bg-9.jpg);">
+
+                <!-- Element cover
+                ===================
+                -->
+                <div class="cover cover-opacity-4"></div>
+
+            </div>
+            <!-- End page header image -->
+            <!-- Begin page header inner -->
+            <div class="page-header-inner tt-wrap">
+
+                <!-- Begin page header caption
+                ===============================
+                -->
+                <div class="page-header-caption ph-cap-lg parallax-5">
+                    <div class="ph-title-wrap">
+                        <h1 class="page-header-title">@Model.Title</h1>
+                    </div>
+
+
+                    <!-- Begin zig-zag separator
+                    =============================
+                    -->
+                    <div class="zig-zag-separator zig-zag-lg">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <!-- End zig-zag separator -->
+                    <!-- End page header description -->
+
+                </div>
+                <!-- End page header caption -->
+
+            </div>
+            <!-- End page header inner -->
+            <!-- Begin page header animated element
+            ========================================
+            -->
+            <div class="ph-anim-element-wrap ph-anim-circle parallax-4">
+                <div class="ph-anim-element-holder">
+                    <div class="ph-anim-element"></div>
+                </div>
+            </div>
+            <!-- End page header animated element -->
+
+        </section>
+        <!-- End page header -->
+        <!-- =====================================
+        ///// Begin portfolio single section /////
+        ====================================== -->
+        <section id="portfolio-single-section">
+            <div class="portfolio-single-inner tt-wrap">
+
+                <!-- Begin portfolio single info
+                ================================= -->
+                <div class="portfolio-single-info tt-wrap margin-bottom-60">
+
+                    <div class="row">
+                        <div class="col-sm-push-5 col-md-push-4 col-xs-12 col-sm-7 col-md-8">
+
+                            <!-- Begin portfolio single text -->
+                            <div class="portfolio-single-text">
+                                <h3>About This Project</h3>
+                                <p>@Html.Raw(@Model.Content)</p>
+                            </div>
+                            <!-- End portfolio single text -->
+
+                        </div> <!-- /.col -->
+
+                        <div class="col-sm-pull-7 col-md-pull-8 col-xs-12 col-sm-5 col-md-4">
+
+                            <!-- Begin portfolio single attributes -->
+                            <div class="ps-attributes">
+                                <ul class="ps-attr">
+                                    <li>
+                                        <!-- Required -->
+                                        <div class="ps-category">
+                                            <div class="ps-attr-heading">Category:</div>
+                                            <div class="ps-attr-cont"><span>@Model.Category.Name</span></div>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <!-- Optional -->
+                                        <div class="ps-attr-heading">Client:</div>
+                                        <div class="ps-attr-cont">@Model.User.FirstName @Model.User.LastName</div>
+                                    </li>
+                                    <li>
+                                        <!-- Optional -->
+                                        <div class="ps-attr-heading">Website:</div>
+                                        <div class="ps-attr-cont"><a href="@Model.Link" target="_blank">@Model.Link</a></div>
+                                    </li>
+                                </ul> <!-- /.ps-attr -->
+                            </div>
+                            <!-- End portfolio single attributes -->
+
+                        </div> <!-- /.col -->
+                    </div> <!-- /.row -->
+
+                </div>
+                <!-- End portfolio single info -->
+
+
+                <div class="portfolio-single-gallery lightgallery">
+
+                    <div class="owl-carousel dots-rounded dots-outside nav-bottom-right nav-rounded nav-light owl-loaded owl-drag" data-lazy-load="true" data-items="1" data-loop="false" data-dots-speed="800" data-nav="true" data-nav-speed="800" data-mouse-drag="true">
+
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage" style="transform: translate3d(-5008px, 0px, 0px); transition: all 0.8s ease 0s; width: 6260px;">
+                                @if (Model.PortfolioImages != null && Model.PortfolioImages.Any())
+                                {
+                                    foreach (var image in Model.PortfolioImages)
+                                    {
+                                        <div class="owl-item" style="width: 1252px;">
+                                            <div class="cc-item">
+
+                                                <!-- Begin portfolio single image -->
+                                                <figure class="portfolio-single-image-holder">
+                                                    @{
+                                                        var imageUrl = "/assets/images/" + (image.FileName ?? "").Replace("\\", "/");
+                                                    }
+                                                    <a href="~/assets/images/@image.FileName" class="ps-image-link lg-trigger" data-exthumbnail="~/assets/images/@image.FileName" data-sub-html="">
+                                                        <div class="owl-lazy-loader"></div>
+                                                        <div class="portfolio-single-image padding-height-60 owl-lazy bg-image" data-src="~/assets/images/@image.FileName" style="background-image: url('@imageUrl'); opacity: 1;">
+                                                            <div class="ps-image-icon">
+                                                                <span class="lnr lnr-eye"></span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </figure>
+                                                <!-- End portfolio single image -->
+                                            </div>
+                                        </div>
+                                    }
+                                }   
+                                else
+                                {
+                                    
+                                }
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End content carousel -->
+
+                </div>
+
+            </div> <!-- /.portfolio-single-inner -->
+        </section>
+        <!-- End portfolio single section -->
+        <!-- ==========================================
+        ///// Begin project carousel section /////
+        =========================================== -->
+        <section id="project-carousel-section">
+            <div class="project-carousel-inner tt-wrap">
+
+                <!-- Begin tt-heading
+                ======================
+                -->
+                <div class="tt-heading tt-heading-xlg margin-bottom-80">
+                    <div class="tt-heading-inner tt-wrap">
+                        <h1 class="tt-heading-title">More Projects</h1>
+                        <div class="tt-heading-subtitle">Other projects you might like</div>
+
+                        <!-- Begin zig-zag separator
+                        =============================
+                        -->
+                        <div class="zig-zag-separator">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <!-- End zig-zag separator -->
+
+                    </div> <!-- /.tt-heading-inner -->
+                </div>
+                <!-- End tt-heading -->
+                <!-- Begin isotope items wrap
+                ==============================
+                -->
+                <div class="project-carousel pli-colored">
+
+                    <div class="owl-carousel nav-outside-top nav-rounded" data-lazy-load="true" data-items="3" data-margin="40" data-dots="false" data-nav="true" data-nav-speed="800" data-tablet-landscape="3" data-tablet-portrait="2" data-mobile-landscape="2" data-mobile-portrait="1">
+
+                        <!-- Begin carousel item
+                        ========================= -->
+                        @await Component.InvokeAsync("RandomPortfolios")
+                        <!-- End carousel item -->
+
+                    </div>
+                    <!-- End content carousel -->
+
+                </div>
+                <!-- End project carousel -->
+
+            </div> <!-- /.project-carousel-inner -->
+        </section>
+        <!-- End project carousel section -->
+        <!-- =========================
+        ///// Begin sticky share /////
+        ==============================
+        * Use class "ss-right" to enable right align.
+        -->
+        <div class="sticky-share ss-right">
+            <div class="sticky-share-button">
+                <span class="ss-icon"><i class="fas fa-share-alt"></i></span>
+                <span class="ss-close"><i class="fas fa-times"></i></span>
+            </div> <!-- /.sticky-share-button -->
+            @{
+                var currentUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}{Context.Request.QueryString}";
+            }
+            <div class="sticky-share-inner">
+                <ul class="sticky-share-list">
+                    <li><span class="sticky-share-title">Share</span></li>
+                    <li><a href="https://www.facebook.com/sharer/sharer.php?u=@Uri.EscapeDataString(currentUrl)" class="btn btn-default btn-social-min btn-facebook btn-sm"><i class="fab fa-facebook-f"></i></a></li>
+                    <li><a href="https://twitter.com/share?url=@Uri.EscapeDataString(currentUrl)" class="btn btn-default btn-social-min btn-twitter btn-sm"><i class="fab fa-twitter"></i></a></li>
+                    <li><a href="https://pinterest.com/pin/create/button/?url=@Uri.EscapeDataString(currentUrl)" class="btn btn-default btn-social-min btn-pinterest btn-sm"><i class="fab fa-pinterest-p"></i></a></li>
+                    <li><a href="https://plus.google.com/share?url=@Uri.EscapeDataString(currentUrl)" class="btn btn-default btn-social-min btn-google btn-sm"><i class="fab fa-google-plus-g"></i></a></li>
+                </ul> <!-- /.sticky-share-list -->
+            </div> <!-- /.sticky-share-inner -->
+        </div>
+        <!-- End sticky share -->
+        <!-- ===========================
+           ///// Begin footer section /////
+           ================================-->
+        <section id="footer" class="footer-dark no-margin-top">
+
+            @await Component.InvokeAsync("Footer")
+
+        </section>
+        <!-- End footer section -->
+
+    </div>
+    <!-- End body content -->
+    <!-- ====================
+    ///// Scripts below /////
+    ===================== -->
+    <!-- Core JS -->
+    @await Component.InvokeAsync("JS")
+
+
+
+</body>
+
+</html>

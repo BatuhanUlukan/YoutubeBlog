@@ -1,0 +1,518 @@
+﻿@using System.Text.Json
+@model BasePageViewModel
+
+<!DOCTYPE html>
+
+@{
+    Layout = null;
+}
+
+<html lang="en">
+<head>
+
+    <!-- Title -->
+    <title>@Model.PageSeos.Title</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@Model.PageSeos.Title</title>
+    <meta name="description" content="@Model.PageSeos.Description">
+    <meta name="keywords" content="@Model.PageSeos.Keywords" />
+    <meta name="title" content="@Model.PageSeos.Title" />
+    <meta name="author" content="@Model.PageSeos.Page">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    @await Component.InvokeAsync("CSS")
+
+
+</head>
+
+
+<!-- ===========
+///// Body /////
+================
+-->
+<body id="body" class="animsition tt-boxed">
+
+
+    <!-- =================
+    //// Begin header ////
+    ======================
+    -->
+    <header id="header" class="header-show-hide-on-scroll header-transparent menu-align-right">
+
+        <!-- Begin header inner -->
+        <div class="header-inner tt-wrap">
+
+            @{
+                var errorModelJson = TempData["errorModel"] as string;
+                if (errorModelJson != null)
+                {
+                    var errorModel = JsonSerializer.Deserialize<HeaderModel>(errorModelJson);
+                    @await Component.InvokeAsync("Header", new { errorModel })
+                }
+                else
+                {
+                    @await Component.InvokeAsync("Header")
+                }
+            }
+
+
+
+        </div>
+
+
+        <!-- End header inner -->
+
+    </header>	<!-- End header -->
+
+    <div id="body-content">
+
+
+        <section id="tt-intro" class="intro-full-m">
+            <div class="tt-intro-inner">
+
+                <div class="owl-carousel cursor-grab bg-dark cc-hover-zoom owl-loaded owl-drag" data-items="1" data-loop="true" data-dots="false" data-nav="true" data-autoplay="true" data-autoplay-timeout="8000" data-autoplay-hover-pause="true" data-animate-in="fadeIn" data-animate-out="fadeOut">
+
+                    <div class="owl-stage-outer">
+                        <div class="owl-stage" style="transform: translate3d(-9932px, 0px, 0px); transition: all 0s ease 0s; width: 17383px;">
+
+                            @foreach (var slider in Model.Sliders)
+                            {
+                                <div class="owl-item cloned" style="width: 2483.2px;">
+                                    <div class="cc-item">
+
+
+                                        @if (slider.SliderImages != null && slider.SliderImages.Any())
+                                        {
+                                            foreach (var image in slider.SliderImages)
+                                            {
+                                                var imageUrl = "/assets/images/" + image.FileName.Replace('\\', '/');
+
+                                                <div class="intro-image-wrap parallax-6" style="transform: translate3d(0px, 0px, 0px);">
+
+                                                    <div class="intro-image bg-dark bg-image" style="background-image: url(&quot;@imageUrl&quot;); top: -82.5px; bottom: -82.5px;">
+
+                                                        <!-- Element cover
+                                                        ===================
+                                                        -->
+                                                        <div class="cover cover-opacity-2"></div>
+
+                                                    </div> <!-- /.intro-image -->
+
+                                                </div>
+                                            }
+                                        }
+
+                                        <div class="intro-caption-wrap caption-animate intro-caption-sm center parallax-4 fade-out-scroll-5" style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
+                                            <div class="intro-caption-holder">
+                                                <div class="intro-caption center">
+                                                    <h1 class="intro-title">@slider.Name</h1>
+                                                    <h2 class="intro-subtitle">@slider.Content</h2>
+
+                                                    <div class="intro-description">
+                                                        @slider.SubContent
+                                                    </div>
+
+                                                </div> <!-- /.intro-caption -->
+                                            </div> <!-- /.intro-caption-holder -->
+                                        </div>
+                                        <!-- End intro caption wrap -->
+
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+
+                    </div><div class="owl-nav"><button type="button" role="presentation" class="owl-prev"></button><button type="button" role="presentation" class="owl-next"></button></div><div class="owl-dots disabled"></div>
+                </div>
+                <!-- End content carousel -->
+
+            </div> <!-- /.tt-intro-inner -->
+        </section>
+
+        <section id="page-section" class="page-modern">
+            <div class="page-section-inner">
+
+                <div class="split-box">
+                    <div class="container-fluid">
+                        <div class="row">
+                            @foreach (var about in Model.Abouts)
+                            {
+                                <div class="row-lg-height">
+                                    @foreach (var image in about.AboutImages)
+                                    {
+                                        var imageUrl = "/assets/images/" + image.FileName.Replace('\\', '/');
+
+                                        <div class="col-lg-6 col-lg-height split-box-image no-padding bg-image lazy" data-src="@imageUrl">
+
+
+                                            <div class="sbi-height padding-height-60"></div>
+
+                                        </div> <!-- /.col -->
+                                    }
+                                    <div class="col-lg-6 col-lg-height col-lg-middle no-padding">
+
+                                        <div class="split-box-content sb-content-right">
+
+                                            <div class="tt-heading tt-heading-lg">
+                                                <div class="tt-heading-inner">
+                                                    <h1 class="tt-heading-title">@about.Name2</h1>
+                                                    <div class="tt-heading-subtitle">@about.Content</div>
+
+                                                    <div class="zig-zag-separator zig-zag-sm">
+                                                        <span></span>
+                                                        <span></span>
+                                                        <span></span>
+                                                        <span></span>
+                                                    </div>
+                                                    <!-- End zig-zag separator -->
+
+                                                </div> <!-- /.tt-heading-inner -->
+                                            </div>
+                                            <!-- End tt-heading -->
+                                            <p>
+                                                @about.SubContent
+                                            </p>
+
+                                        </div>
+                                        <!-- End split box content -->
+
+                                    </div> <!-- /.col -->
+
+                                </div> <!-- /.row-height -->
+                            }
+
+                        </div> <!-- /.row -->
+                    </div> <!-- /.container -->
+                </div>
+                <!-- End split box -->
+                <section id="services-section" class="services-style-1">
+                    <div class="services-inner tt-wrap">
+
+                        <div class="info-box-wrap ib-style-2 ib-icon-bg-shape">
+
+                            <div class="row">
+                                @foreach (var item in Model.Services.Take(3))
+                                {
+                                    <div class="col-sm-4">
+
+                                        <!-- Begin info box -->
+                                        <div class="info-box">
+                                            <span class="info-box-icon"><span class="lnr lnr-@item.Icon"></span></span>
+                                            <div class="info-box-info">
+                                                <h3 class="info-box-heading"><a href="">@item.Name</a></h3>
+                                                <div class="info-box-text tt-ellipsis ddd-truncated" style="overflow-wrap: break-word;">
+                                                    @if (!string.IsNullOrEmpty(item.Content))
+                                                    {
+                                                        @Html.Raw(item.Content.Length > 30 ? item.Content.Substring(0, 90) + "..." : item.Content)
+                                                    }
+                                                </div>
+                                            </div> <!-- /.info-box-info -->
+                                        </div>
+                                        <!-- End info box -->
+
+                                    </div> <!-- /.col -->
+                                }
+
+                            </div> <!-- /.row -->
+
+                            <div class="row">
+                                @foreach (var item in Model.Services.Skip(3))
+                                {
+                                    <div class="col-sm-4">
+
+                                        <!-- Begin info box -->
+                                        <div class="info-box">
+                                            <span class="info-box-icon"><span class="lnr lnr-@item.Icon"></span></span>
+                                            <div class="info-box-info">
+                                                <h3 class="info-box-heading"><a href="">@item.Name</a></h3>
+                                                <div class="info-box-text tt-ellipsis ddd-truncated" style="overflow-wrap: break-word;">
+                                                    @if (!string.IsNullOrEmpty(item.Content))
+                                                    {
+                                                        @Html.Raw(item.Content.Length > 30 ? item.Content.Substring(0, 90) + "..." : item.Content)
+                                                    }
+                                                </div>
+                                            </div> <!-- /.info-box-info -->
+                                        </div>
+                                        <!-- End info box -->
+
+                                    </div> <!-- /.col -->
+                                }
+
+                            </div> <!-- /.row -->
+
+                        </div>
+                        <!-- End info box wrap -->
+
+                    </div> <!-- /.services-inner -->
+                </section>
+            </div> <!-- /.page-section-inner -->
+        </section>
+        <!-- End page section -->
+        <section id="portfolio-list-section">
+            <div class="portfolio-list-inner isotope-wrap">
+                <div class="tt-heading tt-heading-xxlg text-center padding-on">
+                    <div class="tt-heading-inner">
+                        <h1 class="tt-heading-title">Portfolio</h1>
+                        <div class="tt-heading-subtitle">Please see our recent work</div>
+
+                        <div class="zig-zag-separator">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+
+                    </div> <!-- /.tt-heading-inner -->
+                </div>
+
+                <div class="isotope col-3">
+
+                    <div class="isotope-items-wrap pli-multi-colored pli-alter-4 bg-dark">
+
+                        <!-- Grid sizer (do not remove!!!) -->
+                        <div class="grid-sizer"></div>
+
+
+                        @if (Model.Portfolios != null && Model.Portfolios.Any())
+                        {
+                            foreach (var portfolio in Model.Portfolios)
+                            {
+                                if (portfolio.PortfolioImages != null && portfolio.PortfolioImages.Any())
+                                {
+                                    foreach (var image in portfolio.PortfolioImages)
+                                    {
+                                        var imageUrl = "/assets/images/" + image.FileName.Replace('\\', '/');
+
+                                        <div class="isotope-item print iso-height-1">
+
+                                            <!-- Begin portfolio list item -->
+                                            <div class="portfolio-list-item">
+
+                                                <!-- Begin portfolio list item image -->
+                                                <div class="pl-item-image-wrap">
+
+                                                    <!-- Begin portfolio list item image inner -->
+                                                    <a asp-action="Detail" asp-controller="Portfolio" asp-route-slug="@portfolio.Slug" class="pl-item-image-inner">
+
+                                                        <div class="pl-item-image bg-image lazy" data-src="@imageUrl"></div>
+
+                                                        <!-- Portfolio list item icon (displayed only with default hover overlay and "pli-alter-4" class in isotope-items-wrap) -->
+                                                        <div class="pl-item-icon"><span class="lnr lnr-link"></span></div>
+                                                    </a>
+                                                    <!-- End portfolio list item image inner -->
+
+                                                </div>
+                                                <!-- End portfolio list item image -->
+                                                <!-- Begin portfolio list item info -->
+                                                <div class="pl-item-info">
+                                                    <div class="pl-item-caption">
+                                                        <h2 class="pl-item-title"><a asp-action="Detail" asp-controller="Portfolio" asp-route-slug="@portfolio.Slug">@portfolio.Title</a></h2>
+                                                        <div class="pl-item-category"><span>@portfolio.Category.Name</span></div>
+                                                    </div>
+                                                </div>
+                                                <!-- End portfolio list item info -->
+
+                                            </div>
+                                            <!-- End portfolio list item -->
+
+                                        </div>
+                                        <!-- End isotope item -->
+                                    }
+                                }
+                            }
+                        }
+
+                    </div>
+                    <!-- End isotope items wrap -->
+
+                </div>
+
+            </div> <!-- /.portfolio-list-inner (/.isotope-wrap) -->
+        </section>
+        <!-- End portfolio list section -->
+        @if (Model.Facts.Any())
+        {
+            <section id="funn-facts-section" class="bg-main ff-light bg-pattern" style="background-image: url(/basehtml/aivo/assets/img/pattern/transparent/pt-transparent-6.png);">
+
+                <div class="funn-facts-inner tt-wrap">
+
+                    <div class="cover cover-opacity-4 cover-color"></div>
+
+                    <div class="row">
+                        @foreach (var fact in Model.Facts)
+                        {
+                            <div class="col-md-3 col-sm-6">
+
+                                <!-- Begin counter up -->
+                                <div class="counter-up-wrap cu-animated">
+                                    <div class="counter-up-icon"><i class="fas fa-@fact.Icon"></i></div>
+                                    <div class="counter-up">@fact.Value</div>
+                                    <h4 class="counter-up-title">@fact.Name</h4>
+                                </div>
+                                <!-- End counter up -->
+
+                            </div> <!-- /.col -->
+                        }
+
+
+
+                    </div> <!-- /.row -->
+
+                </div> <!-- /.funn-facts-inner -->
+            </section>
+            <!-- End fun facts section -->
+        }
+
+        <section id="latest-news-section">
+            <div class="latest-news-section-inner tt-wrap">
+
+                <div class="tt-heading tt-heading-xlg text-center margin-bottom-80">
+                    <div class="tt-heading-inner">
+                        <h1 class="tt-heading-title">Latest News</h1>
+                        <div class="tt-heading-subtitle">Recent articles from blog</div>
+                        <div class="zig-zag-separator">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+                    </div> <!-- /.tt-heading-inner -->
+                </div>
+                <!-- End tt-heading -->
+                <!-- Begin latest news carousel
+                ================================ -->
+                <div class="latest-news-carousel">
+
+                    <div class="owl-carousel cursor-grab nav-outside-top nav-rounded owl-loaded owl-drag" data-lazy-load="true" data-items="3" data-margin="30" data-loop="true" data-dots="false" data-nav="true" data-nav-speed="500" data-autoplay="false" data-autoplay-timeout="5000" data-autoplay-speed="500" data-autoplay-hover-pause="true" data-tablet-landscape="3" data-tablet-portrait="2" data-mobile-landscape="1" data-mobile-portrait="1">
+
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage" style="transform: translate3d(-1281px, 0px, 0px); transition: all 0s ease 0s; width: 5128px;">
+
+                                @if (Model.Articles != null && Model.Articles.Any())
+                                {
+                                    foreach (var article in Model.Articles)
+                                    {
+                                        if (article.ArticleImages != null && article.ArticleImages.Any())
+                                        {
+                                            foreach (var image in article.ArticleImages)
+                                            {
+                                                var imageUrl = "/assets/images/" + image.FileName.Replace('\\', '/');
+
+                                                <div class="owl-item" style="width: 397.333px; margin-right: 30px;">
+                                                    <div class="cc-item">
+
+                                                        <!-- Begin blog list item -->
+                                                        <article class="blog-list-item">
+                                                            <span style="display: none;">@article.Id</span>
+                                                            <!-- Begin blog list item image -->
+                                                            <div class="bl-item-image-wrap">
+                                                                <div class="owl-lazy-loader"></div>
+                                                                <a asp-controller="Home" asp-action="Detail" asp-route-slug="@article.Slug" class="bl-item-image bg-image owl-lazy" data-src="@imageUrl"></a>
+                                                            </div>
+                                                            <!-- End blog list item image -->
+                                                            <!-- Begin blog list item info -->
+                                                            <div class="bl-item-info">
+                                                                <div class="bl-item-category">
+
+                                                        
+                                                                        <a asp-controller="Home" asp-action="Detail" asp-route-slug="@article.Slug"></a>
+
+                                                              
+                                                                </div>
+                                                                <a asp-controller="Home" asp-action="Detail" asp-route-slug="@article.Slug" class="bl-item-title"><h2>@article.Title</h2></a>
+                                                                <div class="bl-item-meta">
+                                                                    <span class="published">@article.CreatedDate.ToString("MMM dd, yyyy")</span>
+                                                                    <span class="posted-by">- by <span title="View all posts by ">@article.User.FirstName @article.User.LastName</span></span>
+                                                                </div>
+                                                                <div class="bl-item-desc">
+                                                                    @article.Description
+                                                                </div>
+
+                                                                <!-- Begin blog list item attributes -->
+                                                                <ul class="bl-item-attr">
+                                                                    <li>
+                                                                        <!-- Begin comments count -->
+                                                                        <span class="bl-item-comments-count" title="Viewed Article"><i class="far fa-eye"></i> @article.ViewCount</span>
+                                                                        <!-- End comments count -->
+                                                                    </li>
+                                                                </ul>
+                                                                <!-- End blog list item attributes -->
+
+                                                            </div>
+                                                            <!-- End blog list item info -->
+
+                                                        </article>
+                                                        <!-- End blog list item -->
+
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                        <div class="owl-nav"><button type="button" role="presentation" class="owl-prev"></button><button type="button" role="presentation" class="owl-next"></button></div><div class="owl-dots disabled"></div>
+                    </div>
+                    <!-- End content carousel -->
+
+                </div>
+                <!-- End latest news carousel -->
+
+            </div> <!-- /.latest-news-section-inner -->
+        </section>
+        <section id="clients-section" class="clients-style-3 no-margin-top">
+            <div class="clients-inner tt-wrap">
+                <!-- add/remove class "tt-wrap" to enable/disable element boxed layout (class "tt-boxed" is required in <body> tag!). Note: additionally you can use prepared helper class "max-width-*" to add custom width to "tt-wrap". Example: "max-width-1500" (class "tt-wrap" is still required!). More info about helper classes in file "helper.css" -->
+                <!-- Begin content carousel (https://owlcarousel2.github.io/OwlCarousel2/)
+                ====================================================================
+                -->
+                <div class="owl-carousel cursor-grab" data-lazy-load="true" data-items="6" data-loop="true" data-margin="40" data-autoplay="true" data-autoplay-speed="800" data-autoplay-timeout="5000" data-autoplay-hover-pause="true" data-dots="false" data-tablet-landscape="5" data-tablet-portrait="4" data-mobile-landscape="3" data-mobile-portrait="2">
+                    @if (Model.Clients != null && Model.Clients.Any())
+                    {
+                        foreach (var client in Model.Clients)
+                        {
+                            if (client.ClientImages != null && client.ClientImages.Any() && client.IsActive)
+                            {
+                                foreach (var image in client.ClientImages)
+                                {
+                                    var imageUrl = "/assets/images/" + image.FileName.Replace('\\', '/');
+                                    <a href="@client.Link" class="cc-item" title="@client.Name" target="_blank">
+                                        <img class="owl-lazy" data-src="@imageUrl" alt="@client.Name">
+                                    </a>
+                                }
+                            }
+                        }
+                    }
+                </div>
+                <!-- End content carousel -->
+
+            </div> <!-- /.services-inner -->
+        </section>
+
+        <section id="footer" class="footer-dark no-margin-top">
+
+            @await Component.InvokeAsync("Footer")
+
+        </section>
+        <!-- End footer section -->
+    </div>
+
+
+    <!-- Core JS -->
+    @await Component.InvokeAsync("JS")
+
+
+</body>
+
+</html>

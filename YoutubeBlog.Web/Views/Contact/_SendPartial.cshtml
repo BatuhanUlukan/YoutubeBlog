@@ -1,0 +1,41 @@
+﻿@model YoutubeBlog.Web.Models.ContactIndexViewModel
+
+
+<form asp-controller="Contact" asp-action="Send" method="post" >
+    <div class="contact-form-inner bg-gray-3 padding-5-p">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <input type="text" class="form-control" asp-for="Message.Name" placeholder="Name" required>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <input type="email" class="form-control" asp-for="Message.Email" placeholder="Email " required>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <input type="text" class="form-control" asp-for="Message.Subject" placeholder="Subject" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <textarea class="form-control" asp-for="Message.Content" rows="4" placeholder="Content" required></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="small text-gray"><em>* All fields are required!</em></div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary margin-top-40">Send Message</button>
+    </div>
+</form>
+@await Component.InvokeAsync("NToastNotify")

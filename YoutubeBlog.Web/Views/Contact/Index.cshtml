@@ -1,0 +1,237 @@
+﻿@using YoutubeBlog.Web.Models
+@model ContactIndexViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<!--
+   Template:   Aivo - Multipurpose Portfolio HTML Website Template
+   Author:     Themetorium
+   URL:        https://themetorium.net
+-->
+
+<html lang="en">
+
+<head>
+
+    <!-- Title -->
+    <title>@Model.PageSeos.Title</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="@Model.PageSeos.Description">
+    <meta name="keywords" content="@Model.PageSeos.Keywords" />
+    <meta name="title" content="@Model.PageSeos.Title" />
+    <meta name="author" content="@Model.PageSeos.Page">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon (http://www.favicon-generator.org/) -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+    @await Component.InvokeAsync("CSS")
+
+
+</head>
+
+
+<!-- ===========
+///// Body /////
+================-->
+<body id="body" class="animsition tt-boxed">
+
+
+    <!-- =================
+    //// Begin header ////
+    ======================
+    -->
+    <header id="header" class="header-show-hide-on-scroll menu-align-right">
+
+        <!-- Begin header inner -->
+        <div class="header-inner tt-wrap">
+            @await Component.InvokeAsync("Header")
+        </div>
+        <!-- End header inner -->
+
+
+    </header>
+    <!-- End header -->
+    <!-- *************************************
+    *********** Begin body content ***********
+    ************************************** -->
+    <div id="body-content">
+
+
+        <!-- Begin custom Google Map
+        =============================
+        -->
+        <div id="map"></div>
+
+
+        <!-- End custom Google Map -->
+        <!-- ======================================
+        ///// Begin contact section (style-3) /////
+        ======================================= -->
+        <section id="contact-section" class="contact-style-3">
+            <div class="contact-section-inner tt-wrap">
+
+                <div class="row">
+
+                    @foreach (var item in Model.Headquarters)
+                    {
+                        <div class="col-md-4">
+
+                            <!-- Begin contact info -->
+                            <div class="contact-info-wrap margin-bottom-40">
+
+                                <h3 class="contact-info-title">
+                                    <span class="lnr lnr-map-marker"></span>
+                                    <span target="_blank">@item.Name</span>
+                                </h3>
+
+                                <ul class="contact-info">
+                                    <li>
+                                        <span class="address">
+                                            <span class="lnr lnr-home"></span>
+                                            @if (string.IsNullOrWhiteSpace(item.AddressLink))
+                                            {
+                                                <span>@item.Address</span>
+                                            }
+                                            else
+                                            {
+                                                <a href="@item.AddressLink" target="_blank">@item.Address</a>
+                                            }
+                                        </span>
+                                    </li>
+
+                                    <li><span class="phone"><span class="lnr lnr-phone"></span>@item.PhoneNumber</span></li>
+                                    <li><span class="email"><span class="lnr lnr-envelope"></span> <a href="mailto:@item.Email" target="_blank">@item.Email</a></span></li>
+                                </ul> <!-- /.contact-info -->
+
+                            </div>
+                            <!-- End contact info -->
+
+                        </div> <!-- /.col -->
+                    }
+
+
+                </div> <!-- /.row -->
+
+                <div class="row margin-top-80">
+                    <div class="col-md-6">
+
+                        <!-- Begin tt-heading
+                        ====================== -->
+                        <div class="tt-heading tt-heading-xlg margin-bottom-20">
+                            <div class="tt-heading-inner">
+                                <h1 class="tt-heading-title">Contact Us</h1>
+
+                                <!-- Begin zig-zag separator
+                                ============================= -->
+                                <div class="zig-zag-separator">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <!-- End zig-zag separator -->
+
+                                <div class="tt-heading-text">
+                                    You can share your questions and details with us in order to provide better service. Your request will be responded to as soon as possible.
+                                </div>
+
+                                <!-- Begin social buttons -->
+                                <div class="social-buttons margin-top-25">
+
+                                    @if (Model.Socials != null && Model.Socials.Count > 0)
+                                    {
+                                        <h5>Follow Us:</h5>
+                                        @foreach (var item in Model.Socials)
+                                        {
+                                            <a href="@item.Link" class="btn btn-social-min btn-default btn-rounded-full" title="Follow me on @item.Name" target="_blank">
+                                                <i class="fab fa-@item.Icon"></i>
+                                            </a>
+                                        }
+
+                                    }
+                                    else
+                                    {
+
+                                    }
+
+
+
+                                </div>
+                                <!-- End social buttons -->
+
+                            </div> <!-- /.tt-heading-inner -->
+                        </div>
+                        <!-- End tt-heading -->
+
+                    </div> <!-- /.col -->
+
+                    <div class="col-md-6">
+
+                        <!-- Begin contact form
+                        ========================= -->
+                        @await Html.PartialAsync("_SendPartial", Model.Message)
+
+                        <!-- End contact form -->
+
+                    </div> <!-- /.col -->
+                </div> <!-- /.row -->
+
+            </div> <!-- /.contact-section-inner -->
+        </section>
+        <!-- End contact section -->
+        <!-- ===========================<img src= />
+        ///// Begin footer section /////
+        ================================ -->
+        <section id="footer" class="footer-dark no-margin-top">
+
+            @await Component.InvokeAsync("Footer")
+
+        </section>
+        <!-- End footer section -->
+
+    </div>
+    <!-- End body content -->
+    <!-- ====================
+    ///// Scripts below /////
+    ===================== -->
+    <!-- Core JS -->
+    @await Component.InvokeAsync("JS")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    @foreach (var item in Model.Headquarters.Where(x => x.Choosen))
+    {
+        <script>
+
+            var map = L.map('map').setView([@item.Location], 10);
+
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 25,
+            }).addTo(map);
+
+
+            var marker = L.marker([@item.Location]).addTo(map)
+                .bindPopup('Konumunuz');
+        </script>
+    }
+
+
+</body>
+
+</html>

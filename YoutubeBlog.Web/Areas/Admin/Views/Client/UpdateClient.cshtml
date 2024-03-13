@@ -1,0 +1,83 @@
+﻿@using YoutubeBlog.Entity.DTOs.Clients;
+@model ClientUpdateDto
+<div class="container-xxl flex-grow-1 container-p-y">
+
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light"> Client Yönetimi /</span>  Client Güncelle
+    </h4>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <form asp-controller="Client" asp-action="UpdateClient" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label asp-for="Name" id="defaultFormControlInput" class="form-label">Client Baslık</label>
+                            <input asp-for="Name" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen client baslık giriniz." aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Link" id="defaultFormControlInput" class="form-label">Client Link</label>
+                            <input asp-for="Link" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen client link giriniz." aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="Link" class="text-danger"></span>
+                        </div>
+                        <div class="checkbox-theme-default custom-checkbox">
+
+                            <input class="checkbox" type="checkbox" asp-for="IsActive">
+                            <label asp-for="IsActive">
+                                Client Aktif Mi ?
+                            </label>
+                        </div>
+
+                        <br>
+                        @if (Model.ClientImages != null && Model.ClientImages.Any())
+                        {
+                            <div class="row" style="margin-left:10px;">
+                                <input type="hidden" asp-for="Id" />
+                                <label>Sahip Olunan Resimler</label>
+                                <div class="row mb-3">
+
+                                    @foreach (var image in Model.ClientImages)
+                                    {
+                                        <div class="col-md-2 mb-1">
+                                            <img src="~/assets/images/@image.FileName" alt="@Model.Name" class="img-thumbnail">
+                                        </div>
+                                    }
+
+                                </div>
+
+                            </div>
+                        }
+                        <div style="margin-left:-15px;" class="card-body">
+                            <div class="atbd-tag-wrap">
+
+                                <div class="atbd-upload">
+                                    <div class="atbd-upload__button">
+                                        <a href="javascript:void(0)" class="btn btn-lg btn-outline-lighten btn-upload" onclick="$('#imageInput').click()">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-upload">
+                                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                                <polyline points="17 8 12 3 7 8"></polyline>
+                                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                                            </svg>
+                                            Click to Upload
+                                        </a>
+                                        <input asp-for="Photos" type="file" accept="image/*" class="upload-one" id="imageInput" multiple style="display: none;">
+                                    </div>
+                                    <div class="atbd-upload__file">
+                                        <ul></ul>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="Photos" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-sm">Kaydet</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

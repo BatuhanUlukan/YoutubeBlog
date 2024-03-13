@@ -1,0 +1,42 @@
+﻿@model MessageDto
+<div class="container-xxl flex-grow-1 container-p-y">
+
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Mesaj Yönetimi </span> 
+    </h4>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <form >
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="card-body">
+                        <input type="hidden" asp-for="SecName" />
+                        <div class="form-group">
+                            <label asp-for="Name" id="defaultFormControlInput" class="form-label">Mesaj Gönderen</label>
+                            <input asp-for="Name" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen kategori ismini giriniz." aria-describedby="defaultFormControlHelp" readonly>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Email" id="defaultFormControlInput" class="form-label">Mesaj Maili</label>
+                            <input asp-for="Email" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen kategori ismini giriniz." aria-describedby="defaultFormControlHelp" readonly>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Subject" id="defaultFormControlInput" class="form-label">Mesaj Konu</label>
+                            <input asp-for="Subject" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen kategori ismini giriniz." aria-describedby="defaultFormControlHelp" readonly>
+                            <span asp-validation-for="Subject" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Content" id="defaultFormControlInput" class="form-label">Mesaj Metni</label>
+                            <input asp-for="Content" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen kategori ismini giriniz." aria-describedby="defaultFormControlHelp" readonly>
+                            <span asp-validation-for="Content" class="text-danger"></span>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

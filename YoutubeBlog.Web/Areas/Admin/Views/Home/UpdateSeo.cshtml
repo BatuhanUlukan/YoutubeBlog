@@ -1,0 +1,42 @@
+﻿@using YoutubeBlog.Entity.DTOs.Pages;
+@model PageSeoUpdateDto
+<div class="container-xxl flex-grow-1 container-p-y">
+
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Sayfa Seo Yönetimi /</span> Sayfa Seo Güncelle
+    </h4>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <form asp-controller="Home" asp-action="UpdateSeo" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="card-body">
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="Page" />
+                        <div class="form-group">
+                            <label asp-for="Title" id="defaultFormControlInput" class="form-label">Sayfa Baslık</label>
+                            <input asp-for="Title" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen sayfa baslık giriniz." aria-describedby="defaultFormControlHelp" >
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Description" id="defaultFormControlInput" class="form-label">Sayfa Icerık</label>
+                            <input asp-for="Description" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen sayfa içerik giriniz." aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Keywords" id="defaultFormControlInput" class="form-label">Sayfa Anahtar</label>
+                            <input asp-for="Keywords" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen sayfa anahtarları giriniz." aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="Keywords" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-sm">Kaydet</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
