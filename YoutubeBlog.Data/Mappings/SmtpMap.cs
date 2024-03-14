@@ -13,13 +13,13 @@ namespace YourNamespace
             {
                 Id = Guid.NewGuid(),
                 SmtpName = "SMTP",
-                ServerIP = "77.245.159.27",
-                IncomingServer = "mail.batuhanulukan.com.tr",
-                OutgoingServer = "mail.batuhanulukan.com.tr",
+                ServerIP = "",
+                IncomingServer = "",
+                OutgoingServer = "",
                 SMTPPort = 465,
                 IMAPPort = 993,
-                Username = "info@batuhanulukan.com.tr",
-                Password = "B5x8d2u~9",
+                Username = "",
+                Password = "",
             });
         }
     }
